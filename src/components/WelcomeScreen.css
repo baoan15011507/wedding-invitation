@@ -1,0 +1,131 @@
+.welcome {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  /* visible: nút 囍 lệch sang phải mép cửa trái không bị cắt */
+  overflow: visible;
+  pointer-events: auto;
+  container-type: size;
+  container-name: welcome;
+}
+
+.welcome-door {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  will-change: transform;
+  transition: transform 1.6s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.welcome-door--left {
+  z-index: 2;
+  overflow: visible;
+}
+
+.welcome-door--right {
+  z-index: 1;
+  overflow: hidden;
+}
+
+.welcome-door-face {
+  position: absolute;
+  inset: 0;
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.18);
+}
+
+.welcome-door--left .welcome-door-face {
+  background-position: left center;
+}
+
+.welcome-door--right .welcome-door-face {
+  background-position: right center;
+}
+
+.welcome.is-opening .welcome-door--left {
+  transform: translateX(-100%);
+}
+
+.welcome.is-opening .welcome-door--right {
+  transform: translateX(100%);
+}
+
+/*
+ * Nút 囍: mép phải cửa trái, căn giữa đường 50%.
+ * Nền = crop đúng vùng giữa nendo.jpg (cùng scale với toàn thiệp).
+ * Không có transition vị trí riêng → dính cứng theo cửa trái.
+ */
+.welcome-hy {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 3;
+  width: 72px;
+  height: 72px;
+  transform: translate(50%, -50%);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  margin: 0;
+  border: 2px solid #d4af37;
+  border-radius: 4px;
+  /* 100cqw/cqh = kích thước .welcome → khớp background cửa */
+  background-size: 100cqw 100cqh;
+  background-position: center center;
+  background-repeat: no-repeat;
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.45),
+    0 6px 18px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.welcome-hy:hover:not(:disabled) {
+  filter: brightness(1.06);
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.65),
+    0 0 0 4px rgba(212, 175, 55, 0.22),
+    0 8px 22px rgba(0, 0, 0, 0.32);
+}
+
+.welcome-hy:active:not(:disabled) {
+  filter: brightness(0.97);
+}
+
+.welcome-hy:disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.welcome-hy-char {
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  /* chữ Trung 囍 màu vàng gold */
+  color: #d4af37;
+  background: linear-gradient(180deg, #f5e6a6 0%, #d4af37 45%, #a67c2d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+.welcome.is-opening {
+  pointer-events: none;
+}
+
+@media (max-width: 380px) {
+  .welcome-hy {
+    width: 64px;
+    height: 64px;
+  }
+
+  .welcome-hy-char {
+    font-size: 1.85rem;
+  }
+}

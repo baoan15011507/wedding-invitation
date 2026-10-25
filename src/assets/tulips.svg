@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 180" fill="none">
+  <g stroke="#4a5c42" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <!-- stems -->
+    <path d="M48 170 C48 120 42 95 38 70" />
+    <path d="M78 170 C78 115 82 90 88 62" />
+    <path d="M108 170 C108 125 118 100 128 78" />
+    <!-- leaves -->
+    <path d="M48 130 C28 118 22 100 30 88 C42 102 48 112 48 130Z" fill="#6e8460" fill-opacity="0.25" />
+    <path d="M78 125 C98 112 108 95 102 82 C88 96 80 108 78 125Z" fill="#6e8460" fill-opacity="0.25" />
+    <path d="M108 140 C92 128 88 112 96 100 C108 114 110 126 108 140Z" fill="#6e8460" fill-opacity="0.25" />
+    <!-- tulip buds -->
+    <path d="M38 70 C28 58 30 40 38 28 C46 40 48 58 38 70Z" fill="#6e8460" fill-opacity="0.2" />
+    <path d="M38 70 C34 52 38 36 38 28" />
+    <path d="M38 70 C42 52 38 36 38 28" />
+    <path d="M88 62 C78 50 80 32 88 20 C96 32 98 50 88 62Z" fill="#6e8460" fill-opacity="0.2" />
+    <path d="M88 62 C84 44 88 28 88 20" />
+    <path d="M88 62 C92 44 88 28 88 20" />
+    <path d="M128 78 C118 66 120 48 128 36 C136 48 138 66 128 78Z" fill="#6e8460" fill-opacity="0.2" />
+    <path d="M128 78 C124 60 128 44 128 36" />
+    <path d="M128 78 C132 60 128 44 128 36" />
+  </g>
+</svg>
