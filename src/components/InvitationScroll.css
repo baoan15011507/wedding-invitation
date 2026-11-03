@@ -35,9 +35,13 @@
   box-sizing: border-box;
 }
 
+.inv-hero {
+  padding-bottom: 0;
+}
+
 .inv-announce {
-  padding-top: 28px;
-  padding-bottom: 28px;
+  padding-top: 0;
+  padding-bottom: 0;
   background:
     linear-gradient(180deg, transparent, rgba(168, 184, 150, 0.18) 12%, rgba(168, 184, 150, 0.12));
 }
@@ -62,13 +66,12 @@
 
 .inv-kicker {
   font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-size: 1.08rem;
   font-weight: 500;
   font-style: italic;
   letter-spacing: 0.28em;
-  text-transform: lowercase;
   color: var(--sage-dark);
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .inv-names {
@@ -76,7 +79,7 @@
   font-size: clamp(1.55rem, 6.8vw, 2rem);
   line-height: 1.2;
   color: var(--ink);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   white-space: nowrap;
   max-width: 100%;
   flex-direction: row;
@@ -125,7 +128,7 @@
   box-shadow: none;
   display: grid;
   place-items: center;
-  margin: 6px 0 10px;
+  margin: 0;
 }
 
 .hy-seal span {
@@ -139,6 +142,16 @@
 .inv-photo-wrap {
   width: 100%;
   margin: 8px 0 4px;
+}
+
+/* Ảnh số 1 → 囍 và 囍 → Nhà Trai/Nhà Gái: cùng khoảng 24px */
+.inv-photo-wrap--1 {
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+
+.inv-hy-after-photo1 {
+  margin-bottom: 24px;
 }
 
 .inv-photo {
@@ -218,21 +231,23 @@
 
 .inv-announce-couple {
   margin-bottom: 18px;
-  gap: 2px;
+  gap: 0;
 }
 
 .inv-full-name {
   font-family: var(--font-script);
   font-size: clamp(2rem, 9vw, 2.55rem);
-  line-height: 1.2;
+  line-height: 1.05;
+  margin: 0;
   color: var(--ink);
 }
 
 .inv-amp {
   font-family: var(--font-serif);
   font-size: 1.2rem;
+  line-height: 1;
   color: var(--sage-dark);
-  margin: 2px 0 4px;
+  margin: 6px 0;
 }
 
 /* —— Chỉ đỏ —— hoa sen —— chỉ đỏ —— */
@@ -243,7 +258,7 @@
   gap: 8px;
   width: 100%;
   max-width: 280px;
-  margin: 14px 0 8px;
+  margin: 14px 0 0;
   line-height: 0;
 }
 
@@ -273,7 +288,8 @@
   font-size: clamp(1.85rem, 8vw, 2.4rem);
   line-height: 1.25;
   color: var(--ink);
-  margin: 6px 0 24px;
+  /* Hoa sen → chữ và chữ → slide: cùng 18px */
+  margin: 18px 0;
   white-space: nowrap;
 }
 

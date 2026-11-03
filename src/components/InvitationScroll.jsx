@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
-import photo1 from '../assets/TR__4771.JPG'
-import photo2 from '../assets/TR__4785.JPG'
 import { albumPhotos } from '../data/album'
+import { anhSo1, anhSo2 } from '../data/photos'
 import { wedding } from '../data/wedding'
 import DirectionsTour from './DirectionsTour'
 import CalendarNov2026 from './CalendarNov2026'
@@ -15,9 +14,9 @@ import Reveal from './Reveal'
 import './InvitationScroll.css'
 
 const carouselPhotos = [
-  { src: photo1, alt: 'Ảnh cưới giữa' },
-  { src: photo2, alt: 'Ảnh cưới phải' },
-  { src: photo2, alt: 'Ảnh cưới trái' },
+  { src: anhSo1, alt: 'Ảnh cưới giữa' },
+  { src: anhSo2, alt: 'Ảnh cưới phải' },
+  { src: anhSo2, alt: 'Ảnh cưới trái' },
 ]
 
 function FamilyCol({ family }) {
@@ -122,7 +121,7 @@ export default function InvitationScroll({ active, onCloseInvite }) {
     >
       <section className="inv-block inv-hero" aria-label="Thiệp mời">
         <Reveal enabled={active} className="inv-kicker" delay={80}>
-          thiệp mời
+          Thiệp Mời
         </Reveal>
 
         <Reveal enabled={active} className="inv-names" delay={200}>
@@ -143,16 +142,17 @@ export default function InvitationScroll({ active, onCloseInvite }) {
           </p>
         </Reveal>
 
-        <Reveal enabled={active} className="inv-photo-wrap" delay={200}>
+        {/* Ảnh số 1 — thay trong src/data/photos.js (anhSo1) */}
+        <Reveal enabled={active} className="inv-photo-wrap inv-photo-wrap--1" delay={200}>
           <img
             className="inv-photo"
-            src={photo1}
+            src={anhSo1}
             alt={`${groom.shortName} và ${bride.shortName}`}
             loading="eager"
           />
         </Reveal>
 
-        <Reveal enabled={active} delay={280}>
+        <Reveal enabled={active} className="inv-hy-after-photo1" delay={280}>
           <HySeal />
         </Reveal>
       </section>
@@ -174,10 +174,11 @@ export default function InvitationScroll({ active, onCloseInvite }) {
           <p className="inv-full-name">{bride.fullName}</p>
         </Reveal>
 
-        <Reveal enabled={active} className="inv-photo-wrap" delay={160}>
+        {/* Ảnh số 2 — thay trong src/data/photos.js (anhSo2) */}
+        <Reveal enabled={active} className="inv-photo-wrap inv-photo-wrap--2" delay={160}>
           <img
             className="inv-photo"
-            src={photo2}
+            src={anhSo2}
             alt={`${groom.fullName} và ${bride.fullName}`}
             loading="lazy"
           />

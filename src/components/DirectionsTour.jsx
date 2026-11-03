@@ -23,23 +23,23 @@ function buildStreetViewSrc(point, key) {
   return `https://www.google.com/maps/embed/v1/streetview?${params}`
 }
 
-function buildDirectionsSrc(origin, destination, key) {
+/** Embed chỉ điểm đến (không gắn tuyến từ đầu đường) */
+function buildPlaceSrc(lat, lng, key) {
   const params = new URLSearchParams({
     key,
-    origin,
-    destination,
-    mode: 'driving',
+    q: `${lat},${lng}`,
+    zoom: '16',
     language: 'vi',
     region: 'VN',
   })
-  return `https://www.google.com/maps/embed/v1/directions?${params}`
+  return `https://www.google.com/maps/embed/v1/place?${params}`
 }
 
-function buildOpenMapsUrl(origin, destination) {
+/** Chỉ đường từ vị trí hiện tại của khách → điểm đến */
+function buildDirectionsFromHereUrl(lat, lng) {
   const params = new URLSearchParams({
     api: '1',
-    origin,
-    destination,
+    destination: `${lat},${lng}`,
     travelmode: 'driving',
   })
   return `https://www.google.com/maps/dir/?${params}`
@@ -74,16 +74,16 @@ export default function DirectionsTour() {
   visibleRef.current = visible
   stepRef.current = step
 
-  const origin = `${route.origin.lat},${route.origin.lng}`
-  const destination = `${route.destination.lat},${route.destination.lng}`
+  const destLat = route.destination.lat
+  const destLng = route.destination.lng
 
-  const directionsSrc = useMemo(() => {
+  const placeSrc = useMemo(() => {
     if (!hasKey) return ''
-    return buildDirectionsSrc(origin, destination, EMBED_KEY)
-  }, [hasKey, origin, destination])
+    return buildPlaceSrc(destLat, destLng, EMBED_KEY)
+  }, [hasKey, destLat, destLng])
 
   const openMapsUrl = route.destination.mapsUrl
-  const openDirectionsUrl = buildOpenMapsUrl(origin, destination)
+  const openDirectionsUrl = buildDirectionsFromHereUrl(destLat, destLng)
 
   const clearTimer = () => {
     if (timerRef.current) {
@@ -215,9 +215,7 @@ export default function DirectionsTour() {
     <section className="dir-tour" aria-label="Chỉ đường đến tư gia">
       <h2 className="dir-tour-title">Chỉ đường đến tư gia</h2>
       <p className="dir-tour-addr">{party.address}</p>
-      <p className="dir-tour-route">
-        {directions.originLabel} → {directions.destinationLabel}
-      </p>
+      <p className="dir-tour-route">{directions.destinationLabel}</p>
 
       {!hasKey && (
         <>
@@ -301,8 +299,8 @@ export default function DirectionsTour() {
 
           <div className="dir-tour-frame dir-tour-frame--map">
             <iframe
-              title="Bản đồ chỉ đường"
-              src={directionsSrc}
+              title="Vị trí tư gia"
+              src={placeSrc}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

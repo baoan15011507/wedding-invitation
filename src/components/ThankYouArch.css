@@ -1,8 +1,8 @@
 .ty-arch {
   width: 100%;
   max-width: 360px;
-  margin: 8px auto 0;
-  padding: 28px 12px 0;
+  margin: 0 auto;
+  padding: 12px 12px 0;
   text-align: center;
 }
 
@@ -15,12 +15,13 @@
 
 .ty-hearts {
   position: absolute;
-  top: 0;
+  /* Căn giữa theo viền vàng đỉnh khung (~padding-top wrap + nửa độ dày viền) */
+  top: 24px;
   left: 50%;
   z-index: 4;
   width: 92px;
   height: 60px;
-  transform: translate(-50%, -20%);
+  transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
   pointer-events: none;

@@ -1,7 +1,7 @@
 .cal-section {
   width: 100%;
   max-width: 360px;
-  margin: 12px auto 64px;
+  margin: 12px auto 44px;
   text-align: center;
   padding: 8px 4px 0;
   position: relative;
@@ -36,6 +36,11 @@
   text-transform: uppercase;
   color: var(--sage-deep, #6e8460);
   padding-bottom: 6px;
+}
+
+.cal-weekday.is-sunday {
+  font-weight: 700;
+  color: #c62828;
 }
 
 .cal-day {

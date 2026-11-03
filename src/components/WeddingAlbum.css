@@ -1,9 +1,9 @@
 .wed-album {
   width: 100%;
   max-width: 380px;
-  margin: 10px auto 80px;
+  margin: 4px auto 20px;
   text-align: center;
-  padding: 8px 0 0;
+  padding: 0;
 }
 
 .wed-album-title {
@@ -13,14 +13,14 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink);
-  margin: 0 0 6px;
+  margin: 0 0 4px;
 }
 
 .wed-album-stage {
   position: relative;
   width: 100%;
-  padding: 8px 0 4px;
-  margin-top: 10px;
+  padding: 4px 0 4px;
+  margin-top: 2px;
   user-select: none;
   touch-action: pan-y;
 }
@@ -165,115 +165,71 @@
   }
 }
 
-.wed-album-progress {
-  width: min(210px, 70%);
-  height: 2px;
-  margin: 10px auto 0;
-  border-radius: 999px;
-  background: rgba(74, 92, 66, 0.18);
-  overflow: hidden;
+/* —— Lightbox full ảnh —— */
+.wed-album-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 48px 16px 24px;
+  background: rgba(22, 28, 20, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: wedAlbumLbIn 0.28s ease both;
 }
 
-.wed-album-progress-bar {
-  height: 100%;
-  width: 100%;
-  transform-origin: left center;
-  background: linear-gradient(90deg, var(--sage-deep, #6e8460), #9bb08a);
-  animation: wedAlbumFill linear forwards;
-}
-
-.wed-album-progress-bar.is-paused {
-  animation-play-state: paused;
-}
-
-@keyframes wedAlbumFill {
+@keyframes wedAlbumLbIn {
   from {
-    transform: scaleX(0);
+    opacity: 0;
   }
   to {
-    transform: scaleX(1);
+    opacity: 1;
   }
 }
 
-.wed-album-meta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 12px;
+.wed-album-lightbox-img {
+  max-width: min(100%, 420px);
+  max-height: min(82svh, 860px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
+  animation: wedAlbumLbPop 0.32s cubic-bezier(0.22, 0.9, 0.28, 1) both;
 }
 
-.wed-album-count {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
-  letter-spacing: 0.12em;
-  color: var(--sage-dark, #4a5c42);
-  min-width: 4.5rem;
+@keyframes wedAlbumLbPop {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-.wed-album-count em {
-  font-style: normal;
-  opacity: 0.45;
-  margin: 0 0.2em;
-}
-
-.wed-album-arrow {
-  width: 40px;
-  height: 40px;
+.wed-album-lightbox-close {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border: none;
   border-radius: 999px;
-  border: 1px solid rgba(74, 92, 66, 0.28);
-  background: rgba(255, 252, 247, 0.7);
-  color: var(--sage-dark, #4a5c42);
-  font-size: 1.35rem;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 1.65rem;
   line-height: 1;
   cursor: pointer;
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(4px);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.wed-album-strip {
-  display: flex;
-  gap: 7px;
-  justify-content: flex-start;
-  overflow-x: auto;
-  padding: 16px 8px 4px;
-  margin: 4px -4px 0;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.wed-album-strip::-webkit-scrollbar {
-  display: none;
-}
-
-.wed-album-thumb {
-  flex: 0 0 auto;
-  width: 44px;
-  height: 56px;
-  padding: 0;
-  border: 1px solid rgba(74, 92, 66, 0.22);
-  border-radius: 4px;
-  overflow: hidden;
-  background: rgba(168, 184, 150, 0.2);
-  cursor: pointer;
-  scroll-snap-align: center;
-  opacity: 0.55;
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.wed-album-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.wed-album-thumb.is-on {
-  opacity: 1;
-  transform: translateY(-3px);
-  border-color: var(--sage-deep, #6e8460);
-  box-shadow: 0 6px 14px rgba(40, 50, 35, 0.16);
+.wed-album-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.28);
 }

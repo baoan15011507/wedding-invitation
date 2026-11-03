@@ -23,7 +23,11 @@ export default function CalendarNov2026() {
 
       <div className="cal-grid" role="grid" aria-label={calendar.monthLabel}>
         {calendar.weekdays.map((d) => (
-          <div key={d} className="cal-weekday" role="columnheader">
+          <div
+            key={d}
+            className={`cal-weekday${d === 'CN' ? ' is-sunday' : ''}`}
+            role="columnheader"
+          >
             {d}
           </div>
         ))}

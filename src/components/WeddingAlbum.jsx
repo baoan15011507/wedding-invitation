@@ -4,7 +4,7 @@ import './WeddingAlbum.css'
 const AUTO_MS = 4200
 
 /**
- * Album slide 3D — 10 khung, sân khấu giữa + 2 bên nghiêng, film-strip, tự chạy.
+ * Album slide 3D — vuốt ngang; chạm ảnh giữa → xem full + nút đóng.
  */
 export default function WeddingAlbum({ photos }) {
   const slides = useMemo(() => {
@@ -14,7 +14,7 @@ export default function WeddingAlbum({ photos }) {
   const n = slides.length
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
-  const [tick, setTick] = useState(0)
+  const [lightbox, setLightbox] = useState(false)
   const touchRef = useRef(null)
 
   useEffect(() => {
@@ -24,31 +24,44 @@ export default function WeddingAlbum({ photos }) {
   const go = (dir) => {
     if (!n) return
     setActive((i) => (i + dir + n) % n)
-    setTick((t) => t + 1)
   }
 
-  const jump = (i) => {
-    setActive(i)
-    setTick((t) => t + 1)
+  const openLightbox = () => {
+    setPaused(true)
+    setLightbox(true)
+  }
+
+  const closeLightbox = () => {
+    setLightbox(false)
+    window.setTimeout(() => setPaused(false), 800)
   }
 
   useEffect(() => {
-    if (paused || n < 2) return undefined
+    if (!lightbox) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') closeLightbox()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lightbox])
+
+  useEffect(() => {
+    if (paused || lightbox || n < 2) return undefined
     const id = window.setInterval(() => {
       setActive((i) => (i + 1) % n)
-      setTick((t) => t + 1)
     }, AUTO_MS)
     return () => window.clearInterval(id)
-  }, [paused, n, tick])
+  }, [paused, lightbox, n, active])
 
   const onTouchStart = (e) => {
+    if (lightbox) return
     const t = e.changedTouches[0]
     touchRef.current = { x: t.clientX, y: t.clientY }
     setPaused(true)
   }
 
   const onTouchEnd = (e) => {
-    if (!touchRef.current) return
+    if (lightbox || !touchRef.current) return
     const t = e.changedTouches[0]
     const dx = t.clientX - touchRef.current.x
     const dy = t.clientY - touchRef.current.y
@@ -71,6 +84,8 @@ export default function WeddingAlbum({ photos }) {
     return 'hidden'
   }
 
+  const current = slides[active]
+
   return (
     <section className="wed-album" aria-label="Ảnh cưới">
       <h2 className="wed-album-title">ẢNH CƯỚI</h2>
@@ -80,7 +95,9 @@ export default function WeddingAlbum({ photos }) {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        onMouseLeave={() => {
+          if (!lightbox) setPaused(false)
+        }}
         role="region"
         aria-roledescription="carousel"
         aria-label="Slide ảnh cưới"
@@ -95,7 +112,7 @@ export default function WeddingAlbum({ photos }) {
                 className={`wed-album-card is-${slot}`}
                 onClick={() => {
                   if (slot === 'center') {
-                    setPaused((v) => !v)
+                    openLightbox()
                     return
                   }
                   if (slot === 'left' || slot === 'far-left') go(-1)
@@ -103,7 +120,7 @@ export default function WeddingAlbum({ photos }) {
                 }}
                 tabIndex={slot === 'center' ? 0 : -1}
                 aria-hidden={slot === 'hidden'}
-                aria-label="Ảnh cưới"
+                aria-label={slot === 'center' ? 'Xem ảnh lớn' : 'Ảnh cưới'}
               >
                 <span className="wed-album-frame">
                   <img src={p.src} alt="" draggable={false} />
@@ -112,55 +129,33 @@ export default function WeddingAlbum({ photos }) {
             )
           })}
         </div>
+      </div>
 
-        <div className="wed-album-progress" aria-hidden="true">
-          <div
-            key={tick}
-            className={`wed-album-progress-bar${paused ? ' is-paused' : ''}`}
-            style={{ animationDuration: `${AUTO_MS}ms` }}
+      {lightbox && current && (
+        <div
+          className="wed-album-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Xem ảnh đầy đủ"
+          onClick={closeLightbox}
+        >
+          <button
+            type="button"
+            className="wed-album-lightbox-close"
+            onClick={closeLightbox}
+            aria-label="Đóng"
+          >
+            ×
+          </button>
+          <img
+            className="wed-album-lightbox-img"
+            src={current.src}
+            alt=""
+            draggable={false}
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
-
-        <div className="wed-album-meta">
-          <button
-            type="button"
-            className="wed-album-arrow"
-            onClick={() => go(-1)}
-            aria-label="Ảnh trước"
-          >
-            ‹
-          </button>
-          <p className="wed-album-count">
-            <span>{String(active + 1).padStart(2, '0')}</span>
-            <em>/</em>
-            <span>{String(n).padStart(2, '0')}</span>
-          </p>
-          <button
-            type="button"
-            className="wed-album-arrow"
-            onClick={() => go(1)}
-            aria-label="Ảnh sau"
-          >
-            ›
-          </button>
-        </div>
-      </div>
-
-      <div className="wed-album-strip" role="tablist" aria-label="Chọn ảnh">
-        {slides.map((p, i) => (
-          <button
-            key={`thumb-${i}`}
-            type="button"
-            role="tab"
-            aria-selected={i === active}
-            className={`wed-album-thumb${i === active ? ' is-on' : ''}`}
-            onClick={() => jump(i)}
-            aria-label="Chọn ảnh"
-          >
-            <img src={p.src} alt="" draggable={false} />
-          </button>
-        ))}
-      </div>
+      )}
     </section>
   )
 }

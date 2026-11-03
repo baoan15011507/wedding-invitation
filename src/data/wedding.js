@@ -69,7 +69,6 @@ export const wedding = {
    * (tạo bằng: npm run route:build). Không cần Maps JavaScript API.
    */
   directions: {
-    originLabel: 'Đầu đường (gần 229 Đường Phú Long)',
     destinationLabel: 'Nhà Bác Bảy, X566+FPC',
   },
 }
