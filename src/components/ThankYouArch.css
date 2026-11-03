@@ -165,58 +165,34 @@
   background: #f7f2ea;
 }
 
-.ty-arch-photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 22%;
-  display: block;
-  opacity: 0;
-  transform: scale(1.06);
-  transition:
-    opacity 0.65s ease,
-    transform 0.7s cubic-bezier(0.22, 0.9, 0.28, 1);
-}
-
-.ty-arch.is-intro-photo .ty-arch-photo,
-.ty-arch.is-intro-hearts .ty-arch-photo,
-.ty-arch.is-intro-label .ty-arch-photo,
-.ty-arch.is-intro-done .ty-arch-photo {
-  opacity: 1;
-  transform: scale(1);
-}
-
+/* 囍 to nằm sau ảnh — lộ ra quanh hai người trong khung vòm */
 .ty-arch-hy {
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 36%;
   transform: translate(-50%, -50%);
   font-family: 'Noto Serif SC', 'Songti SC', serif;
-  font-size: clamp(5.5rem, 28vw, 7rem);
+  font-size: clamp(11rem, 60vw, 15rem);
   font-weight: 700;
   line-height: 1;
   color: #c62828;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
   user-select: none;
   opacity: 0;
-  transition: opacity 0.5s ease 0.15s;
+  transition: opacity 0.5s ease 0.1s;
 }
 
 .ty-arch.is-intro-photo .ty-arch-hy,
 .ty-arch.is-intro-hearts .ty-arch-hy,
 .ty-arch.is-intro-label .ty-arch-hy,
 .ty-arch.is-intro-done .ty-arch-hy {
-  opacity: 1;
+  opacity: 0.78;
 }
 
-/* Watermark 囍 nhấp nháy nhẹ hơn (không át ảnh) */
+/* Ghi đè .hy-blink global (hồng) — chỉ đỏ → đỏ đậm, không đổi opacity */
 .ty-arch-hy.hy-blink {
-  animation-name: hyBlinkRedSoft;
-  animation-duration: 2.4s;
-  animation-iteration-count: infinite;
+  animation: hyBlinkRedDeep 1.8s ease-in-out infinite;
   animation-play-state: paused;
 }
 
@@ -227,18 +203,47 @@
   animation-play-state: running;
 }
 
-@keyframes hyBlinkRedSoft {
+@keyframes hyBlinkRedDeep {
   0%,
   100% {
     color: #c62828;
-    opacity: 0.22;
     filter: none;
   }
   50% {
-    color: #ff1744;
-    opacity: 0.42;
-    filter: drop-shadow(0 0 8px rgba(198, 40, 40, 0.25));
+    color: #5c0000;
+    filter: drop-shadow(0 0 6px rgba(80, 0, 0, 0.4));
   }
+}
+
+/* Ảnh PNG — cao đủ khung (không cắt đầu), mép phải trùng khung */
+.ty-arch-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: auto;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: right bottom;
+  display: block;
+  z-index: 1;
+  transform-origin: right top;
+  opacity: 0;
+  transform: scale(1.04) translateY(4%);
+  transition:
+    opacity 0.65s ease,
+    transform 0.7s cubic-bezier(0.22, 0.9, 0.28, 1);
+}
+
+.ty-arch.is-intro-photo .ty-arch-photo,
+.ty-arch.is-intro-hearts .ty-arch-photo,
+.ty-arch.is-intro-label .ty-arch-photo,
+.ty-arch.is-intro-done .ty-arch-photo {
+  opacity: 1;
+  /* Xuống nhẹ — đầu vẫn trong khung, cắt nhẹ phần dưới váy */
+  transform: scale(1) translateY(4%);
 }
 
 .ty-arch-copy {

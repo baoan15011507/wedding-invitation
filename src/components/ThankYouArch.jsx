@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import photo from '../assets/TR__0664.JPG'
+import photo from '../assets/anh_cuoi_0nen.png'
 import './ThankYouArch.css'
 
 const FRAME_MS = 780
@@ -124,6 +124,9 @@ export default function ThankYouArch() {
 
         <div className="ty-arch-frame">
           <div className="ty-arch-clip">
+            <span className="ty-arch-hy hy-blink" aria-hidden="true">
+              囍
+            </span>
             <img
               className="ty-arch-photo"
               src={photo}
@@ -131,9 +134,6 @@ export default function ThankYouArch() {
               loading="lazy"
               draggable={false}
             />
-            <span className="ty-arch-hy hy-blink" aria-hidden="true">
-              囍
-            </span>
             <div className="ty-arch-copy">
               <p className="ty-arch-thanks">Thank You!</p>
               <p className="ty-arch-honor">Rất hân hạnh được đón tiếp</p>
