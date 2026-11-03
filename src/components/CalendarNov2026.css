@@ -78,6 +78,12 @@
   transform: translateY(0.14em);
 }
 
+.cal-day-heart--today svg {
+  color: #1a1a1a;
+  filter: none;
+  transform: translateY(0.1em);
+}
+
 .cal-day-num {
   position: relative;
   z-index: 1;
@@ -87,4 +93,9 @@
   color: #fff;
   line-height: 1;
   transform: translateY(0.02em);
+}
+
+.cal-day-num--today {
+  color: var(--ink, #1a1a1a);
+  font-weight: 600;
 }
