@@ -4,6 +4,7 @@
   margin: 0 auto;
   padding: 12px 12px 0;
   text-align: center;
+  perspective: 1200px;
 }
 
 .ty-arch-wrap {
@@ -15,17 +16,28 @@
 
 .ty-hearts {
   position: absolute;
-  /* Căn giữa theo viền vàng đỉnh khung (~padding-top wrap + nửa độ dày viền) */
   top: 24px;
   left: 50%;
   z-index: 4;
   width: 92px;
   height: 60px;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0.55);
   display: grid;
   place-items: center;
   pointer-events: none;
   filter: drop-shadow(0 2px 5px rgba(80, 40, 40, 0.28));
+  opacity: 0;
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 0.9, 0.28, 1),
+    transform 0.55s cubic-bezier(0.18, 0.9, 0.22, 1.15);
+  will-change: opacity, transform;
+}
+
+.ty-arch.is-intro-hearts .ty-hearts,
+.ty-arch.is-intro-label .ty-hearts,
+.ty-arch.is-intro-done .ty-hearts {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .ty-hearts-svg {
@@ -38,10 +50,11 @@
 
 .ty-heart-shape {
   fill: #c62828;
-  stroke: #d4af37;
-  stroke-width: 2.4;
+  stroke: url(#ty-gold-shine);
+  stroke-width: 2.6;
   stroke-linejoin: round;
   paint-order: stroke fill;
+  filter: drop-shadow(0 0 2px rgba(255, 220, 120, 0.45));
 }
 
 .ty-heart-fill {
@@ -57,10 +70,21 @@
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #fff;
-  transform: translateY(4px);
+  transform: translateY(8px);
+  opacity: 0;
   text-shadow: 0 1px 2px rgba(80, 0, 0, 0.28);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 0.9, 0.28, 1);
 }
 
+.ty-arch.is-intro-label .ty-hearts-label,
+.ty-arch.is-intro-done .ty-hearts-label {
+  opacity: 1;
+  transform: translateY(4px);
+}
+
+/* Khung lật từ dưới lên trước + viền vàng chạy sáng */
 .ty-arch-frame {
   position: relative;
   padding: 5px;
@@ -76,10 +100,65 @@
   box-shadow:
     0 16px 36px rgba(40, 50, 35, 0.18),
     0 0 0 1px rgba(160, 120, 30, 0.25);
+  transform-origin: center bottom;
+  transform: rotateX(88deg);
+  opacity: 0;
+  transition:
+    transform 0.78s cubic-bezier(0.18, 0.9, 0.22, 1.05),
+    opacity 0.45s ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.ty-arch-frame::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  z-index: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 36%,
+    rgba(255, 248, 210, 0.15) 44%,
+    rgba(255, 255, 245, 0.85) 50%,
+    rgba(255, 230, 140, 0.35) 56%,
+    transparent 64%
+  );
+  transform: translateX(-60%) rotate(8deg);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.ty-arch.is-intro-frame .ty-arch-frame::before,
+.ty-arch.is-intro-photo .ty-arch-frame::before,
+.ty-arch.is-intro-hearts .ty-arch-frame::before,
+.ty-arch.is-intro-label .ty-arch-frame::before,
+.ty-arch.is-intro-done .ty-arch-frame::before {
+  opacity: 1;
+  animation: tyFrameShine 2.6s linear infinite;
+}
+
+@keyframes tyFrameShine {
+  0% {
+    transform: translateX(-65%) rotate(8deg);
+  }
+  100% {
+    transform: translateX(65%) rotate(8deg);
+  }
+}
+
+.ty-arch.is-intro-frame .ty-arch-frame,
+.ty-arch.is-intro-photo .ty-arch-frame,
+.ty-arch.is-intro-hearts .ty-arch-frame,
+.ty-arch.is-intro-label .ty-arch-frame,
+.ty-arch.is-intro-done .ty-arch-frame {
+  transform: rotateX(0deg);
+  opacity: 1;
 }
 
 .ty-arch-clip {
   position: relative;
+  z-index: 1;
   aspect-ratio: 3 / 4.15;
   border-radius: 999px 999px 10px 10px;
   overflow: hidden;
@@ -94,6 +173,19 @@
   object-fit: cover;
   object-position: center 22%;
   display: block;
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 0.65s ease,
+    transform 0.7s cubic-bezier(0.22, 0.9, 0.28, 1);
+}
+
+.ty-arch.is-intro-photo .ty-arch-photo,
+.ty-arch.is-intro-hearts .ty-arch-photo,
+.ty-arch.is-intro-label .ty-arch-photo,
+.ty-arch.is-intro-done .ty-arch-photo {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .ty-arch-hy {
@@ -105,10 +197,48 @@
   font-size: clamp(5.5rem, 28vw, 7rem);
   font-weight: 700;
   line-height: 1;
-  color: rgba(198, 40, 40, 0.14);
+  color: #c62828;
   pointer-events: none;
   z-index: 1;
   user-select: none;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.15s;
+}
+
+.ty-arch.is-intro-photo .ty-arch-hy,
+.ty-arch.is-intro-hearts .ty-arch-hy,
+.ty-arch.is-intro-label .ty-arch-hy,
+.ty-arch.is-intro-done .ty-arch-hy {
+  opacity: 1;
+}
+
+/* Watermark 囍 nhấp nháy nhẹ hơn (không át ảnh) */
+.ty-arch-hy.hy-blink {
+  animation-name: hyBlinkRedSoft;
+  animation-duration: 2.4s;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+
+.ty-arch.is-intro-photo .ty-arch-hy.hy-blink,
+.ty-arch.is-intro-hearts .ty-arch-hy.hy-blink,
+.ty-arch.is-intro-label .ty-arch-hy.hy-blink,
+.ty-arch.is-intro-done .ty-arch-hy.hy-blink {
+  animation-play-state: running;
+}
+
+@keyframes hyBlinkRedSoft {
+  0%,
+  100% {
+    color: #c62828;
+    opacity: 0.22;
+    filter: none;
+  }
+  50% {
+    color: #ff1744;
+    opacity: 0.42;
+    filter: drop-shadow(0 0 8px rgba(198, 40, 40, 0.25));
+  }
 }
 
 .ty-arch-copy {
@@ -125,6 +255,19 @@
     rgba(20, 28, 18, 0.42) 100%
   );
   pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.55s ease 0.2s,
+    transform 0.55s cubic-bezier(0.22, 0.9, 0.28, 1) 0.2s;
+}
+
+.ty-arch.is-intro-photo .ty-arch-copy,
+.ty-arch.is-intro-hearts .ty-arch-copy,
+.ty-arch.is-intro-label .ty-arch-copy,
+.ty-arch.is-intro-done .ty-arch-copy {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .ty-arch-thanks {

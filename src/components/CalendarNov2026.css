@@ -6,6 +6,7 @@
   padding: 8px 4px 0;
   position: relative;
   z-index: 2;
+  perspective: 1200px;
 }
 
 .cal-title {
@@ -15,6 +16,33 @@
   letter-spacing: 0.08em;
   color: var(--sage-dark, #4a5c42);
   margin: 0 0 18px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 0.9, 0.28, 1),
+    transform 0.55s cubic-bezier(0.22, 0.9, 0.28, 1);
+}
+
+.cal-section:not(.is-intro-idle) .cal-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tờ lịch lật từ dưới lên */
+.cal-flip {
+  transform-origin: center bottom;
+  transform: rotateX(82deg) translateY(18px);
+  opacity: 0;
+  overflow: visible;
+  transition:
+    transform 0.75s cubic-bezier(0.18, 0.9, 0.22, 1.05),
+    opacity 0.55s ease;
+  will-change: transform, opacity;
+}
+
+.cal-section:not(.is-intro-idle) .cal-flip {
+  transform: rotateX(0deg) translateY(0);
+  opacity: 1;
 }
 
 .cal-grid {
@@ -27,6 +55,13 @@
     linear-gradient(165deg, rgba(255, 252, 247, 0.92), rgba(232, 236, 224, 0.88));
   border: 1px solid rgba(74, 92, 66, 0.18);
   box-shadow: 0 8px 24px rgba(40, 50, 35, 0.08);
+  backface-visibility: hidden;
+  overflow: visible;
+}
+
+.cal-day.is-highlight {
+  overflow: visible;
+  z-index: 3;
 }
 
 .cal-weekday {
@@ -36,6 +71,13 @@
   text-transform: uppercase;
   color: var(--sage-deep, #6e8460);
   padding-bottom: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cal-section:not(.is-intro-idle) .cal-weekday {
+  opacity: 1;
+  transition-delay: 0.35s;
 }
 
 .cal-weekday.is-sunday {
@@ -52,11 +94,26 @@
   font-size: 0.88rem;
   color: var(--ink, #2c3328);
   line-height: 1;
+  opacity: 0;
+  transform: translateY(-22px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.32s cubic-bezier(0.22, 1.15, 0.36, 1);
+}
+
+.cal-section.is-intro-days .cal-day:not(.is-empty),
+.cal-section.is-intro-todayHeart .cal-day:not(.is-empty),
+.cal-section.is-intro-weddingHeart .cal-day:not(.is-empty),
+.cal-section.is-intro-rays .cal-day:not(.is-empty) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--cal-day-i, 1) * 28ms);
 }
 
 .cal-day.is-empty {
   visibility: hidden;
   pointer-events: none;
+  opacity: 0;
 }
 
 .cal-day-heart {
@@ -65,6 +122,7 @@
   height: 2.2rem;
   display: grid;
   place-items: center;
+  animation: calHeartPop 0.45s cubic-bezier(0.18, 0.9, 0.22, 1.2) both;
 }
 
 .cal-day-heart svg {
@@ -74,7 +132,6 @@
   height: 100%;
   color: #c62828;
   filter: drop-shadow(0 2px 4px rgba(160, 30, 30, 0.28));
-  /* Tim hơi lệch xuống để số 29 nằm giữa */
   transform: translateY(0.14em);
 }
 
@@ -98,4 +155,79 @@
 .cal-day-num--today {
   color: var(--ink, #1a1a1a);
   font-weight: 600;
+}
+
+@keyframes calHeartPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Tia sáng tỏa từ tim đỏ ngày 29 */
+.cal-rays {
+  position: absolute;
+  inset: -140%;
+  z-index: 0;
+  pointer-events: none;
+  animation: calRaysSpin 8s linear infinite;
+}
+
+.cal-ray {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 46%;
+  margin-left: -1px;
+  transform-origin: center top;
+  transform: rotate(calc(var(--ray-i) * 36deg)) translateY(-8%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 80, 60, 0.85),
+    rgba(255, 180, 80, 0.35),
+    transparent
+  );
+  border-radius: 2px;
+  filter: blur(0.4px);
+  opacity: 0.75;
+  animation: calRayPulse 1.6s ease-in-out infinite;
+  animation-delay: calc(var(--ray-i) * 0.12s);
+}
+
+@keyframes calRaysSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes calRayPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    height: 40%;
+  }
+  50% {
+    opacity: 0.95;
+    height: 52%;
+  }
+}
+
+.cal-day.has-wedding-heart .cal-day-heart {
+  z-index: 2;
+}
+
+.cal-day.has-wedding-heart .cal-day-heart svg {
+  z-index: 1;
 }

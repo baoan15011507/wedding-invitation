@@ -7,6 +7,16 @@ const EMBED_KEY = import.meta.env.VITE_GOOGLE_MAPS_EMBED_KEY || ''
 /** Thời gian tối thiểu giữ mỗi điểm trước khi chuyển (ms) */
 const MIN_DWELL_MS = route.stepMs ?? 1200
 
+const REVEAL_VARIANTS = ['left', 'right', 'up', 'down', 'fade', 'scale']
+
+function pickVariant() {
+  return REVEAL_VARIANTS[Math.floor(Math.random() * REVEAL_VARIANTS.length)]
+}
+
+function pickDelay(base = 0) {
+  return base + Math.floor(Math.random() * 180)
+}
+
 function buildStreetViewSrc(point, key) {
   const params = new URLSearchParams({
     key,
@@ -60,8 +70,23 @@ export default function DirectionsTour() {
   const [playing, setPlaying] = useState(false)
   const [visible, setVisible] = useState(0)
   const [slotSrc, setSlotSrc] = useState(['', ''])
+  const [shown, setShown] = useState(false)
+  const [fx, setFx] = useState(() => ({
+    title: 'up',
+    addr: 'fade',
+    route: 'fade',
+    sv: 'scale',
+    progress: 'fade',
+    play: 'left',
+    pause: 'right',
+    dots: milestones.map(() => 'up'),
+    map: 'up',
+    links: ['fade', 'fade'],
+    delays: {},
+  }))
   const hasKey = Boolean(EMBED_KEY)
   const frame = frames[step] || frames[0]
+  const rootRef = useRef(null)
 
   const pendingStep = useRef(null)
   const shownAt = useRef(Date.now())
@@ -69,6 +94,73 @@ export default function DirectionsTour() {
   const playingRef = useRef(false)
   const visibleRef = useRef(0)
   const stepRef = useRef(0)
+
+  const reshuffleFx = useCallback(() => {
+    setFx({
+      title: pickVariant(),
+      addr: pickVariant(),
+      route: pickVariant(),
+      sv: pickVariant(),
+      progress: pickVariant(),
+      play: pickVariant(),
+      pause: pickVariant(),
+      dots: milestones.map(() => pickVariant()),
+      map: pickVariant(),
+      links: [pickVariant(), pickVariant()],
+      delays: {
+        title: pickDelay(0),
+        addr: pickDelay(60),
+        route: pickDelay(100),
+        sv: pickDelay(140),
+        progress: pickDelay(220),
+        play: pickDelay(260),
+        pause: pickDelay(300),
+        dots: milestones.map((_, i) => pickDelay(340 + i * 70)),
+        map: pickDelay(420 + milestones.length * 40),
+        links: [pickDelay(520), pickDelay(580)],
+      },
+    })
+  }, [milestones])
+
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return undefined
+
+    const scrollRoot =
+      el.closest('.invitation-scroll') ||
+      el.closest('.phone-shell') ||
+      null
+
+    let enterRaf = 0
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (enterRaf) {
+          cancelAnimationFrame(enterRaf)
+          enterRaf = 0
+        }
+        if (!entry.isIntersecting) {
+          setShown(false)
+          return
+        }
+        // Đổi hướng ngẫu nhiên trước, rồi mới hiện — để transition chạy đúng
+        setShown(false)
+        reshuffleFx()
+        enterRaf = requestAnimationFrame(() => {
+          enterRaf = requestAnimationFrame(() => {
+            setShown(true)
+            enterRaf = 0
+          })
+        })
+      },
+      { root: scrollRoot, threshold: 0.12 },
+    )
+
+    io.observe(el)
+    return () => {
+      if (enterRaf) cancelAnimationFrame(enterRaf)
+      io.disconnect()
+    }
+  }, [reshuffleFx])
 
   playingRef.current = playing
   visibleRef.current = visible
@@ -211,15 +303,35 @@ export default function DirectionsTour() {
     showFrame(0, { playAfter: true })
   }
 
+  const fxClass = (key) =>
+    `dir-fx from-${fx[key] || 'fade'}${shown ? ' is-shown' : ''}`
+
+  const fxStyle = (key) => ({
+    transitionDelay: `${fx.delays?.[key] ?? 0}ms`,
+  })
+
   return (
-    <section className="dir-tour" aria-label="Chỉ đường đến tư gia">
-      <h2 className="dir-tour-title">Chỉ đường đến tư gia</h2>
-      <p className="dir-tour-addr">{party.address}</p>
-      <p className="dir-tour-route">{directions.destinationLabel}</p>
+    <section
+      ref={rootRef}
+      className={`dir-tour${shown ? ' is-shown' : ''}`}
+      aria-label="Chỉ đường đến tư gia"
+    >
+      <h2 className={`dir-tour-title ${fxClass('title')}`} style={fxStyle('title')}>
+        Chỉ đường đến tư gia
+      </h2>
+      <p className={`dir-tour-addr ${fxClass('addr')}`} style={fxStyle('addr')}>
+        {party.address}
+      </p>
+      <p className={`dir-tour-route ${fxClass('route')}`} style={fxStyle('route')}>
+        {directions.destinationLabel}
+      </p>
 
       {!hasKey && (
         <>
-          <div className="dir-tour-frame dir-tour-frame--map">
+          <div
+            className={`dir-tour-frame dir-tour-frame--map ${fxClass('map')}`}
+            style={fxStyle('map')}
+          >
             <iframe
               title="Bản đồ tư gia (OpenStreetMap)"
               src={buildOsmEmbed(route.destination.lat, route.destination.lng)}
@@ -227,7 +339,7 @@ export default function DirectionsTour() {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-          <div className="dir-tour-setup">
+          <div className={`dir-tour-setup ${fxClass('route')}`} style={fxStyle('route')}>
             <p>
               Đã có {frames.length} điểm dọc đường trong{' '}
               <code>street-route.json</code>. Thêm Embed key vào{' '}
@@ -240,7 +352,10 @@ export default function DirectionsTour() {
 
       {hasKey && frame && (
         <>
-          <div className="dir-tour-frame">
+          <div
+            className={`dir-tour-frame ${fxClass('sv')}`}
+            style={fxStyle('sv')}
+          >
             {[0, 1].map((slot) =>
               slotSrc[slot] ? (
                 <iframe
@@ -267,17 +382,27 @@ export default function DirectionsTour() {
             </div>
           </div>
 
-          <div className="dir-tour-progress" aria-hidden="true">
+          <div
+            className={`dir-tour-progress ${fxClass('progress')}`}
+            style={fxStyle('progress')}
+            aria-hidden="true"
+          >
             <div style={{ width: `${progress}%` }} />
           </div>
 
           <div className="dir-tour-controls">
-            <button type="button" className="dir-tour-btn" onClick={startClip}>
+            <button
+              type="button"
+              className={`dir-tour-btn ${fxClass('play')}`}
+              style={fxStyle('play')}
+              onClick={startClip}
+            >
               {playing ? 'Đang chạy…' : '▶ Xem đường tự động'}
             </button>
             <button
               type="button"
-              className="dir-tour-btn is-ghost"
+              className={`dir-tour-btn is-ghost ${fxClass('pause')}`}
+              style={fxStyle('pause')}
               onClick={() => setPlaying((p) => !p)}
             >
               {playing ? 'Tạm dừng' : 'Tiếp tục'}
@@ -285,11 +410,12 @@ export default function DirectionsTour() {
           </div>
 
           <div className="dir-tour-steps">
-            {milestones.map((m) => (
+            {milestones.map((m, i) => (
               <button
                 key={m.label}
                 type="button"
-                className={`dir-tour-dot${frame.milestone === m.label ? ' is-on' : ''}`}
+                className={`dir-tour-dot${frame.milestone === m.label ? ' is-on' : ''} dir-fx from-${fx.dots[i] || 'up'}${shown ? ' is-shown' : ''}`}
+                style={{ transitionDelay: `${fx.delays?.dots?.[i] ?? 340 + i * 70}ms` }}
                 onClick={() => jumpToMilestone(m.label)}
               >
                 {m.label}
@@ -297,7 +423,10 @@ export default function DirectionsTour() {
             ))}
           </div>
 
-          <div className="dir-tour-frame dir-tour-frame--map">
+          <div
+            className={`dir-tour-frame dir-tour-frame--map ${fxClass('map')}`}
+            style={fxStyle('map')}
+          >
             <iframe
               title="Vị trí tư gia"
               src={placeSrc}
@@ -311,7 +440,8 @@ export default function DirectionsTour() {
 
       <div className="dir-tour-links">
         <a
-          className="dir-tour-open"
+          className={`dir-tour-open dir-fx from-${fx.links[0] || 'fade'}${shown ? ' is-shown' : ''}`}
+          style={{ transitionDelay: `${fx.delays?.links?.[0] ?? 520}ms` }}
           href={openDirectionsUrl}
           target="_blank"
           rel="noreferrer"
@@ -319,7 +449,8 @@ export default function DirectionsTour() {
           Mở Google Maps chỉ đường
         </a>
         <a
-          className="dir-tour-open"
+          className={`dir-tour-open dir-fx from-${fx.links[1] || 'fade'}${shown ? ' is-shown' : ''}`}
+          style={{ transitionDelay: `${fx.delays?.links?.[1] ?? 580}ms` }}
           href={openMapsUrl}
           target="_blank"
           rel="noreferrer"

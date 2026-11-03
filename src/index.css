@@ -66,3 +66,22 @@ img {
 p {
   margin: 0;
 }
+
+/* 囍 nhấp nháy đỏ */
+@keyframes hyBlinkRed {
+  0%,
+  100% {
+    color: #c62828;
+    opacity: 1;
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    color: #ff1744;
+    opacity: 0.55;
+    filter: drop-shadow(0 0 6px rgba(198, 40, 40, 0.45));
+  }
+}
+
+.hy-blink {
+  animation: hyBlinkRed 1.4s ease-in-out infinite;
+}

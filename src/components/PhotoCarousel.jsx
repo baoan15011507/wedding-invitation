@@ -1,16 +1,59 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './PhotoCarousel.css'
 
+const SIDE_MS = 650
+const CENTER_DELAY = 680
+
 /**
- * 3 ảnh coverflow: giữa cao hơn, 2 bên thấp hơn.
- * Vuốt ngang để xoay vòng.
+ * 3 ảnh coverflow.
+ * Lần đầu vào khung: 2 bên trượt vào cùng lúc → ảnh giữa lật từ đáy lên.
+ * Sau đó vuốt ngang để xoay vòng.
  */
-export default function PhotoCarousel({ photos }) {
+export default function PhotoCarousel({ photos, enabled = true }) {
   const [active, setActive] = useState(0)
+  const [intro, setIntro] = useState('idle') // idle | sides | done
+  const rootRef = useRef(null)
   const touchRef = useRef(null)
+  const playedRef = useRef(false)
   const n = photos.length
 
+  useEffect(() => {
+    if (!enabled) {
+      setIntro('idle')
+      playedRef.current = false
+      return undefined
+    }
+
+    const el = rootRef.current
+    if (!el) return undefined
+
+    const scrollRoot =
+      el.closest('.invitation-scroll') ||
+      el.closest('.phone-shell') ||
+      null
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          // Ra khỏi khung → lần sau vào chạy lại intro
+          setIntro('idle')
+          playedRef.current = false
+          return
+        }
+        if (playedRef.current) return
+        playedRef.current = true
+        setIntro('sides')
+        window.setTimeout(() => setIntro('done'), CENTER_DELAY)
+      },
+      { root: scrollRoot, threshold: 0.25 },
+    )
+
+    io.observe(el)
+    return () => io.disconnect()
+  }, [enabled])
+
   const go = (dir) => {
+    if (intro !== 'done') return
     setActive((i) => (i + dir + n) % n)
   }
 
@@ -27,7 +70,7 @@ export default function PhotoCarousel({ photos }) {
   }
 
   const onTouchEnd = (e) => {
-    if (!touchRef.current) return
+    if (!touchRef.current || intro !== 'done') return
     const t = e.changedTouches[0]
     const dx = t.clientX - touchRef.current.x
     const dy = t.clientY - touchRef.current.y
@@ -39,7 +82,8 @@ export default function PhotoCarousel({ photos }) {
 
   return (
     <div
-      className="photo-carousel"
+      ref={rootRef}
+      className={`photo-carousel is-intro-${intro}`}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       role="region"
@@ -54,11 +98,16 @@ export default function PhotoCarousel({ photos }) {
               type="button"
               className={`photo-carousel-card is-${slot}`}
               onClick={() => {
+                if (intro !== 'done') return
                 if (slot === 'left') go(-1)
                 if (slot === 'right') go(1)
               }}
               aria-label={slot === 'center' ? p.alt : `Xem ${p.alt}`}
               tabIndex={slot === 'center' ? 0 : -1}
+              style={{
+                transitionDuration:
+                  slot === 'center' ? '0.7s' : `${SIDE_MS}ms`,
+              }}
             >
               <img src={p.src} alt={p.alt} draggable={false} />
             </button>

@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 
-/** Hiện phần tử kiểu slide khi cuộn vào viewport (chỉ khi enabled) */
+/**
+ * Hiện khi vào khung cuộn; ẩn lại khi ra ngoài để cuộn ngược còn chạy hiệu ứng.
+ * variant: 'up' | 'left' | 'right' | 'fade'
+ */
 export default function Reveal({
   children,
   className = '',
   delay = 0,
   enabled = true,
+  variant = 'up',
   as: Tag = 'div',
 }) {
   const ref = useRef(null)
@@ -14,11 +18,11 @@ export default function Reveal({
   useEffect(() => {
     if (!enabled) {
       setShown(false)
-      return
+      return undefined
     }
 
     const el = ref.current
-    if (!el) return
+    if (!el) return undefined
 
     const scrollRoot =
       el.closest('.invitation-scroll') ||
@@ -27,15 +31,12 @@ export default function Reveal({
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true)
-          io.disconnect()
-        }
+        setShown(entry.isIntersecting)
       },
       {
         root: scrollRoot,
-        threshold: 0.08,
-        rootMargin: '40px 0px 40px 0px',
+        threshold: 0.12,
+        rootMargin: '0px 0px -4% 0px',
       },
     )
 
@@ -43,10 +44,19 @@ export default function Reveal({
     return () => io.disconnect()
   }, [enabled])
 
+  const variantClass =
+    variant === 'left'
+      ? ' from-left'
+      : variant === 'right'
+        ? ' from-right'
+        : variant === 'fade'
+          ? ' from-fade'
+          : ' from-up'
+
   return (
     <Tag
       ref={ref}
-      className={`reveal${shown ? ' is-shown' : ''}${className ? ` ${className}` : ''}`}
+      className={`reveal${variantClass}${shown ? ' is-shown' : ''}${className ? ` ${className}` : ''}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

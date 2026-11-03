@@ -45,7 +45,8 @@ export default function WelcomeScreen({
   }
 
   const busy = phase === 'opening' || phase === 'closing'
-  const showHy = phase === 'closed'
+  // Luôn gắn trên cửa trái — trượt cùng cửa, không unmount khi mở
+  const canClickHy = phase === 'closed'
 
   return (
     <div
@@ -61,18 +62,16 @@ export default function WelcomeScreen({
           style={{ backgroundImage: `url(${nendoBg})` }}
         />
 
-        {showHy && (
-          <button
-            type="button"
-            className="welcome-hy"
-            onClick={handleOpen}
-            disabled={busy}
-            aria-label="Bấm Hỷ để mở thiệp và phát nhạc"
-            style={{ backgroundImage: `url(${nendoBg})` }}
-          >
-            <span className="welcome-hy-char">囍</span>
-          </button>
-        )}
+        <button
+          type="button"
+          className="welcome-hy"
+          onClick={handleOpen}
+          disabled={!canClickHy || busy}
+          aria-label="Bấm Hỷ để mở thiệp và phát nhạc"
+          style={{ backgroundImage: `url(${nendoBg})` }}
+        >
+          <span className="welcome-hy-char hy-blink-gold">囍</span>
+        </button>
       </div>
 
       <div className="welcome-door welcome-door--right" aria-hidden="true">
