@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { albumPhotos } from '../data/album'
-import { anhSo1, anhSo2 } from '../data/photos'
+import { anhSo1, anhSo2, carouselPhotos } from '../data/photos'
 import { wedding } from '../data/wedding'
 import DirectionsTour from './DirectionsTour'
 import CalendarNov2026 from './CalendarNov2026'
@@ -12,12 +12,6 @@ import LotusDivider from './LotusDivider'
 import PhotoCarousel from './PhotoCarousel'
 import Reveal from './Reveal'
 import './InvitationScroll.css'
-
-const carouselPhotos = [
-  { src: anhSo1, alt: 'Ảnh cưới giữa' },
-  { src: anhSo2, alt: 'Ảnh cưới phải' },
-  { src: anhSo2, alt: 'Ảnh cưới trái' },
-]
 
 const CEREMONY_TEXT_MS = 420
 const CEREMONY_SIDE_MS = 650

@@ -1,13 +1,26 @@
 /**
  * Album ảnh cưới — 10 khung.
- * Hiện dùng 2 ảnh có sẵn lặp làm mẫu; thay `src` từng ô khi có ảnh thật.
  */
-import photo1 from '../assets/TR__4771.JPG'
-import photo2 from '../assets/TR__4785.JPG'
+import photo0257 from '../assets/TR__0257.JPG'
+import photo0803 from '../assets/TR__0803.JPG'
+import photo1150 from '../assets/TR__1150.JPG'
+import photo0739 from '../assets/TR__0739.JPG'
+import photo1364 from '../assets/TR__1364.JPG'
+import photo0477 from '../assets/TR__0477.JPG'
+import photo1213 from '../assets/TR__1213.JPG'
+import photo0079 from '../assets/TR__0079.JPG'
+import photo0607 from '../assets/TR__0607.JPG'
+import photo0517 from '../assets/TR__0517.JPG'
 
-const sample = [photo1, photo2]
-
-/** 10 khung — mẫu xoay vòng 2 ảnh; sau này gắn ảnh riêng từng dòng */
-export const albumPhotos = Array.from({ length: 10 }, (_, i) => ({
-  src: sample[i % sample.length],
-}))
+export const albumPhotos = [
+  { src: photo0257 },
+  { src: photo0803 },
+  { src: photo1150 },
+  { src: photo0739 },
+  { src: photo1364 },
+  { src: photo0477 },
+  { src: photo1213 },
+  { src: photo0079 },
+  { src: photo0607 },
+  { src: photo0517 },
+]

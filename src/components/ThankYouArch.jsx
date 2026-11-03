@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import photo from '../assets/TR__4771.JPG'
+import photo from '../assets/TR__0664.JPG'
 import './ThankYouArch.css'
 
 const FRAME_MS = 780
