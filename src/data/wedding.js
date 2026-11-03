@@ -25,8 +25,7 @@ export const wedding = {
   },
   party: {
     venueType: 'TƯ GIA',
-    address:
-      'TỔ DÂN PHỐ PHƯỚC THIỆN XUÂN, PHƯỜNG HÀM THẮNG, TỈNH LÂM ĐỒNG',
+    address: 'NHÀ BÁC BẢY — X566+FPC, HÀM THẮNG, LÂM ĐỒNG',
     time: '11 GIỜ 00',
     weekday: 'CHỦ NHẬT',
     day: 29,
@@ -44,14 +43,14 @@ export const wedding = {
     lunar: 'Nhằm ngày 21 tháng 10 năm Bính Ngọ',
   },
   calendar: {
-    monthLabel: 'THÁNG 11 - 2026',
+    monthLabel: 'Tháng 11 năm 2026',
     year: 2026,
     month: 11,
     highlightDay: 29,
-    // Nov 2026 starts on Sunday
-    startWeekday: 0,
+    // Tuần bắt đầu Thứ 2; 1/11/2026 là Chủ nhật → 6 ô trống
+    startWeekday: 6,
     daysInMonth: 30,
-    weekdays: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+    weekdays: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
   },
   copy: {
     inviteLead: 'TRÂN TRỌNG KÍNH MỜI',
@@ -63,5 +62,14 @@ export const wedding = {
     openHint: 'Chạm để mở thiệp',
     nextPage: 'Xem mặt chính thức',
     prevPage: 'Quay lại thiệp mời',
+  },
+
+  /**
+   * Chỉ đường — điểm chi tiết nằm trong src/data/street-route.json
+   * (tạo bằng: npm run route:build). Không cần Maps JavaScript API.
+   */
+  directions: {
+    originLabel: 'Đầu đường (gần 229 Đường Phú Long)',
+    destinationLabel: 'Nhà Bác Bảy, X566+FPC',
   },
 }

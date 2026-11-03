@@ -1,0 +1,213 @@
+.dir-tour {
+  width: 100%;
+  max-width: 360px;
+  margin: 8px auto 20px;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.dir-tour-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 5vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+
+.dir-tour-addr {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--sage-dark);
+  margin: 0 0 6px;
+}
+
+.dir-tour-route {
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+
+.dir-tour-setup {
+  text-align: left;
+  padding: 14px 14px 12px;
+  margin-bottom: 14px;
+  border: 1px dashed rgba(74, 92, 66, 0.4);
+  border-radius: 8px;
+  background: rgba(255, 252, 247, 0.7);
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.dir-tour-setup p {
+  margin: 0 0 8px;
+}
+
+.dir-tour-code {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  word-break: break-all;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: rgba(74, 92, 66, 0.1);
+  color: var(--ink);
+}
+
+.dir-tour-hint {
+  font-size: 0.78rem !important;
+  color: var(--sage-dark) !important;
+}
+
+.dir-tour-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(74, 92, 66, 0.25);
+  box-shadow: 0 10px 28px rgba(40, 50, 35, 0.14);
+  background: #c5d0bc;
+  margin-bottom: 10px;
+}
+
+.dir-tour-sv {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+  z-index: 0;
+  background: #c5d0bc;
+}
+
+.dir-tour-sv.is-show {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.dir-tour-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+}
+
+.dir-tour-progress {
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(74, 92, 66, 0.15);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.dir-tour-progress > div {
+  height: 100%;
+  background: var(--sage-deep, #6e8460);
+  transition: width 0.35s ease;
+}
+
+.dir-tour-frame--map {
+  aspect-ratio: 1 / 1;
+  margin-top: 8px;
+}
+
+.dir-tour-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.dir-tour-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.dir-tour-btn {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  background: var(--sage-deep, #6e8460);
+  color: #fff;
+  cursor: pointer;
+}
+
+.dir-tour-btn.is-ghost {
+  background: rgba(168, 184, 150, 0.35);
+  color: var(--sage-dark, #4a5c42);
+}
+
+.dir-tour-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.dir-tour-dot {
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 92, 66, 0.25);
+  background: rgba(255, 252, 247, 0.8);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.dir-tour-dot.is-on {
+  background: var(--sage-deep, #6e8460);
+  border-color: transparent;
+  color: #fff;
+}
+
+.dir-tour-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.dir-tour-open {
+  display: inline-flex;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--sage-deep, #6e8460);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}

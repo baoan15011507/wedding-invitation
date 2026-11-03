@@ -5,7 +5,7 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   background:
     radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35), transparent 55%),
     linear-gradient(180deg, #f4f1ea 0%, #ebe6dc 40%, #e4ecdf 100%);
@@ -37,7 +37,7 @@
 
 .inv-announce {
   padding-top: 28px;
-  padding-bottom: 72px;
+  padding-bottom: 28px;
   background:
     linear-gradient(180deg, transparent, rgba(168, 184, 150, 0.18) 12%, rgba(168, 184, 150, 0.12));
 }
@@ -138,7 +138,7 @@
 
 .inv-photo-wrap {
   width: 100%;
-  margin: 8px 0 18px;
+  margin: 8px 0 4px;
 }
 
 .inv-photo {
@@ -206,17 +206,18 @@
 
 .inv-announce-lead {
   font-family: var(--font-serif);
-  font-size: 0.92rem;
+  font-size: clamp(0.78rem, 3.4vw, 0.92rem);
   font-weight: 500;
   letter-spacing: 0.04em;
   line-height: 1.5;
   color: var(--ink-soft);
   margin-bottom: 16px;
-  max-width: 28ch;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .inv-announce-couple {
-  margin-bottom: 28px;
+  margin-bottom: 18px;
   gap: 2px;
 }
 
@@ -232,5 +233,198 @@
   font-size: 1.2rem;
   color: var(--sage-dark);
   margin: 2px 0 4px;
+}
+
+/* —— Chỉ đỏ —— hoa sen —— chỉ đỏ —— */
+.lotus-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+  margin: 14px 0 8px;
+  line-height: 0;
+}
+
+.lotus-divider-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #b52a55 12%,
+    #b52a55 88%,
+    transparent
+  );
+  border-radius: 1px;
+}
+
+.lotus-divider-flower {
+  width: 52px;
+  height: auto;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+}
+
+.inv-invite-script {
+  font-family: var(--font-script);
+  font-size: clamp(1.85rem, 8vw, 2.4rem);
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 6px 0 24px;
+  white-space: nowrap;
+}
+
+/* —— Lễ thành hôn —— */
+.inv-ceremony {
+  width: 100%;
+  max-width: 340px;
+  margin: 4px auto 36px;
+  text-align: center;
+  gap: 0;
+}
+
+.inv-ceremony-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 5vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.inv-ceremony-when {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+.inv-ceremony-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1.35fr auto 1fr;
+  align-items: center;
+  gap: 0 10px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.inv-ceremony-rule {
+  width: 1px;
+  align-self: stretch;
+  min-height: 52px;
+  background: rgba(74, 92, 66, 0.35);
+}
+
+.inv-ceremony-cell {
+  font-family: var(--font-serif);
+  color: var(--ink);
+}
+
+.inv-ceremony-time {
+  font-size: clamp(1.15rem, 5vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.inv-ceremony-mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+}
+
+.inv-ceremony-day {
+  font-size: clamp(1.55rem, 7vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.inv-ceremony-year {
+  font-size: clamp(0.95rem, 4vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.inv-ceremony-lunar {
+  font-family: var(--font-serif);
+  font-size: clamp(0.88rem, 3.8vw, 1rem);
+  font-style: italic;
+  color: var(--sage-dark);
+  margin-bottom: 10px;
+}
+
+.inv-ceremony-venue {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 5vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+/* —— Khung tiệc mừng —— */
+.inv-party-frame {
+  width: 100%;
+  max-width: 320px;
+  margin: 28px auto 40px;
+  padding: 22px 18px 20px;
+  text-align: center;
+  border: 1.5px solid rgba(74, 92, 66, 0.45);
+  border-radius: 4px;
+  background: rgba(255, 252, 247, 0.55);
+  box-shadow: inset 0 0 0 4px rgba(168, 184, 150, 0.18);
+  gap: 0;
+}
+
+.inv-party-title {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 4.2vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.inv-party-time {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.inv-party-date {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 5.5vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.inv-party-lunar {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--sage-dark);
+  margin-bottom: 10px;
+}
+
+.inv-party-venue {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink);
 }
 

@@ -1,0 +1,73 @@
+.music-toggle {
+  position: absolute;
+  left: 14px;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 40;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: rgba(255, 252, 247, 0.88);
+  box-shadow:
+    0 8px 20px rgba(40, 50, 35, 0.2),
+    0 0 0 1px rgba(74, 92, 66, 0.2);
+  display: grid;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.music-toggle-disc {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+}
+
+.music-toggle.is-playing .music-toggle-disc {
+  animation: musicSpin 3.2s linear infinite;
+}
+
+.music-toggle-svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.music-toggle-ring {
+  fill: none;
+  stroke: var(--sage-deep, #6e8460);
+  stroke-width: 2.2;
+}
+
+.music-toggle-hub {
+  fill: var(--sage-deep, #6e8460);
+  opacity: 0.22;
+}
+
+.music-toggle-note {
+  fill: var(--sage-dark, #4a5c42);
+}
+
+.music-toggle:not(.is-playing) .music-toggle-note {
+  opacity: 0.55;
+}
+
+.music-toggle:not(.is-playing)::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 26px;
+  background: #c62828;
+  border-radius: 2px;
+  transform: rotate(-42deg);
+  box-shadow: 0 0 0 1px rgba(255, 252, 247, 0.7);
+  pointer-events: none;
+}
+
+@keyframes musicSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}

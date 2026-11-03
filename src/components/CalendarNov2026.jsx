@@ -1,30 +1,25 @@
 import { wedding } from '../data/wedding'
+import './CalendarNov2026.css'
 
 function HeartIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
       <path
         fill="currentColor"
-        d="M12 21s-6.7-4.35-9.33-7.4C.6 11.2.7 8.1 2.8 6.4c1.8-1.45 4.4-1.2 5.9.5L12 10.2l3.3-3.3c1.5-1.7 4.1-1.95 5.9-.5 2.1 1.7 2.2 4.8.13 7.2C18.7 16.65 12 21 12 21z"
+        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
       />
     </svg>
   )
 }
 
 export default function CalendarNov2026() {
-  const { calendar, groom, bride } = wedding
+  const { calendar } = wedding
   const blanks = Array.from({ length: calendar.startWeekday }, (_, i) => i)
   const days = Array.from({ length: calendar.daysInMonth }, (_, i) => i + 1)
 
   return (
-    <div className="cal-panel">
-      <div className="cal-names">
-        <span className="cal-name">{groom.shortName}</span>
-        <HeartIcon className="cal-heart" />
-        <span className="cal-name">{bride.shortName}</span>
-      </div>
-
-      <p className="cal-month">{calendar.monthLabel}</p>
+    <section className="cal-section" aria-label="Lịch hôn lễ">
+      <h2 className="cal-title">{calendar.monthLabel}</h2>
 
       <div className="cal-grid" role="grid" aria-label={calendar.monthLabel}>
         {calendar.weekdays.map((d) => (
@@ -42,11 +37,14 @@ export default function CalendarNov2026() {
               key={day}
               className={`cal-day${highlight ? ' is-highlight' : ''}`}
               role="gridcell"
+              aria-label={
+                highlight ? `Ngày ${day} tháng 11 — ngày hôn lễ` : undefined
+              }
             >
               {highlight ? (
                 <span className="cal-day-heart">
                   <HeartIcon />
-                  <span>{day}</span>
+                  <span className="cal-day-num">{day}</span>
                 </span>
               ) : (
                 day
@@ -55,6 +53,6 @@ export default function CalendarNov2026() {
           )
         })}
       </div>
-    </div>
+    </section>
   )
 }

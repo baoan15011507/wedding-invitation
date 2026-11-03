@@ -20,6 +20,11 @@ export default function Reveal({
     const el = ref.current
     if (!el) return
 
+    const scrollRoot =
+      el.closest('.invitation-scroll') ||
+      el.closest('.phone-shell') ||
+      null
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -27,7 +32,11 @@ export default function Reveal({
           io.disconnect()
         }
       },
-      { threshold: 0.18, rootMargin: '0px 0px -6% 0px' },
+      {
+        root: scrollRoot,
+        threshold: 0.08,
+        rootMargin: '40px 0px 40px 0px',
+      },
     )
 
     io.observe(el)

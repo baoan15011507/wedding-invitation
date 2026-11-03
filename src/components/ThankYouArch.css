@@ -1,0 +1,146 @@
+.ty-arch {
+  width: 100%;
+  max-width: 360px;
+  margin: 8px auto 0;
+  padding: 28px 12px 0;
+  text-align: center;
+}
+
+.ty-arch-wrap {
+  position: relative;
+  width: min(100%, 280px);
+  margin: 0 auto;
+  padding-top: 22px;
+}
+
+.ty-hearts {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 4;
+  width: 92px;
+  height: 60px;
+  transform: translate(-50%, -20%);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(80, 40, 40, 0.28));
+}
+
+.ty-hearts-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ty-heart-shape {
+  fill: #c62828;
+  stroke: #d4af37;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+
+.ty-heart-fill {
+  fill: #c62828;
+  stroke: none;
+}
+
+.ty-hearts-label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff;
+  transform: translateY(4px);
+  text-shadow: 0 1px 2px rgba(80, 0, 0, 0.28);
+}
+
+.ty-arch-frame {
+  position: relative;
+  padding: 5px;
+  border-radius: 999px 999px 14px 14px;
+  background: linear-gradient(
+    165deg,
+    #f3e0a0 0%,
+    #d4af37 35%,
+    #c9a227 55%,
+    #f0d78c 78%,
+    #b8962e 100%
+  );
+  box-shadow:
+    0 16px 36px rgba(40, 50, 35, 0.18),
+    0 0 0 1px rgba(160, 120, 30, 0.25);
+}
+
+.ty-arch-clip {
+  position: relative;
+  aspect-ratio: 3 / 4.15;
+  border-radius: 999px 999px 10px 10px;
+  overflow: hidden;
+  background: #f7f2ea;
+}
+
+.ty-arch-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+}
+
+.ty-arch-hy {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  font-family: 'Noto Serif SC', 'Songti SC', serif;
+  font-size: clamp(5.5rem, 28vw, 7rem);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(198, 40, 40, 0.14);
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+
+.ty-arch-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 48px 14px 22px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(20, 28, 18, 0.18) 45%,
+    rgba(20, 28, 18, 0.42) 100%
+  );
+  pointer-events: none;
+}
+
+.ty-arch-thanks {
+  margin: 0 0 4px;
+  font-family: var(--font-script);
+  font-size: clamp(1.55rem, 7vw, 1.85rem);
+  line-height: 1.1;
+  color: rgba(255, 255, 255, 0.78);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+}
+
+.ty-arch-honor {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(0.78rem, 3.4vw, 0.88rem);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.72);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.28);
+}

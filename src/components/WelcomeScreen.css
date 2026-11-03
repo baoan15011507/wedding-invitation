@@ -3,11 +3,20 @@
   inset: 0;
   z-index: 40;
   display: flex;
-  /* visible: nút 囍 lệch sang phải mép cửa trái không bị cắt */
   overflow: visible;
   pointer-events: auto;
   container-type: size;
   container-name: welcome;
+}
+
+.welcome.is-open {
+  pointer-events: none;
+  z-index: 5;
+}
+
+.welcome.is-opening,
+.welcome.is-closing {
+  pointer-events: none;
 }
 
 .welcome-door {
@@ -44,18 +53,27 @@
   background-position: right center;
 }
 
-.welcome.is-opening .welcome-door--left {
+/* Đóng: cửa ở giữa */
+.welcome.is-closed .welcome-door--left,
+.welcome.is-closed .welcome-door--right,
+.welcome.is-closing .welcome-door--left,
+.welcome.is-closing .welcome-door--right {
+  transform: translateX(0);
+}
+
+/* Mở / đang mở: cửa lệch ra hai bên */
+.welcome.is-opening .welcome-door--left,
+.welcome.is-open .welcome-door--left {
   transform: translateX(-100%);
 }
 
-.welcome.is-opening .welcome-door--right {
+.welcome.is-opening .welcome-door--right,
+.welcome.is-open .welcome-door--right {
   transform: translateX(100%);
 }
 
 /*
  * Nút 囍: mép phải cửa trái, căn giữa đường 50%.
- * Nền = crop đúng vùng giữa nendo.jpg (cùng scale với toàn thiệp).
- * Không có transition vị trí riêng → dính cứng theo cửa trái.
  */
 .welcome-hy {
   position: absolute;
@@ -71,7 +89,6 @@
   margin: 0;
   border: 2px solid #d4af37;
   border-radius: 4px;
-  /* 100cqw/cqh = kích thước .welcome → khớp background cửa */
   background-size: 100cqw 100cqh;
   background-position: center center;
   background-repeat: no-repeat;
@@ -105,17 +122,12 @@
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
-  /* chữ Trung 囍 màu vàng gold */
   color: #d4af37;
   background: linear-gradient(180deg, #f5e6a6 0%, #d4af37 45%, #a67c2d 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
-  pointer-events: none;
-}
-
-.welcome.is-opening {
   pointer-events: none;
 }
 

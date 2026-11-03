@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:pages": "vite build && node -e \"const fs=require('fs');fs.rmSync('docs',{recursive:true,force:true});fs.cpSync('dist','docs',{recursive:true});fs.writeFileSync('docs/.nojekyll','')\"",
+    "route:build": "node scripts/build-street-route.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },

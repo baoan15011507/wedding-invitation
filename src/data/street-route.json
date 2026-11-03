@@ -1,0 +1,361 @@
+{
+  "source": "osrm+photometa",
+  "note": "Street View Embed dùng pano tháng 7/2026 khi có. Không cần Maps JavaScript API.",
+  "generatedAt": "2026-11-03T06:18:13.831Z",
+  "preferImageDate": "2026-07",
+  "framesWithDate2026_07": 27,
+  "origin": {
+    "lat": 10.9597235,
+    "lng": 108.1433945,
+    "heading": 107.88,
+    "pitch": -7,
+    "fov": 75,
+    "pano": "39-LETotK94RdbsF24lX-A",
+    "imageDate": "2026-07",
+    "mapsUrl": "https://maps.app.goo.gl/5NSdRAGNA7cjTfCV9"
+  },
+  "destination": {
+    "lat": 10.9611142,
+    "lng": 108.1618585,
+    "mapsUrl": "https://maps.app.goo.gl/ZmPpUDbQ442QPcLbA"
+  },
+  "distanceMeters": 2521,
+  "stepMs": 1200,
+  "milestones": [
+    {
+      "label": "Đầu đường",
+      "lat": 10.959724,
+      "lng": 108.143398,
+      "heading": 107.88,
+      "pano": "39-LETotK94RdbsF24lX-A"
+    },
+    {
+      "label": "Giữa đường",
+      "lat": 10.956885,
+      "lng": 108.150398,
+      "heading": 105.7,
+      "pano": "dGL5sjqzTbnksSf1pe016w"
+    },
+    {
+      "label": "Gần nhà",
+      "lat": 10.956034,
+      "lng": 108.158006,
+      "heading": 73.7,
+      "pano": "tssJMzCM_m82f1Y7hblS_Q"
+    },
+    {
+      "label": "Nhà",
+      "lat": 10.9611142,
+      "lng": 108.1618585,
+      "heading": 0
+    }
+  ],
+  "frames": [
+    {
+      "lat": 10.959724,
+      "lng": 108.143398,
+      "heading": 107.88,
+      "pitch": -7,
+      "fov": 75,
+      "pano": "39-LETotK94RdbsF24lX-A",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.959398,
+      "lng": 108.144221,
+      "heading": 113.2,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "Q6wGcjVm-hgoP-x3M2YSHw",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.959069,
+      "lng": 108.145004,
+      "heading": 113.6,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "69-YqzqWVCbME40UMVgrEg",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.958741,
+      "lng": 108.145768,
+      "heading": 113.6,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "_86qbA_q80h61G8eVI0ozQ",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.958412,
+      "lng": 108.146536,
+      "heading": 112.8,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "9MNU9seg86vjruBYqKV-gQ",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.958095,
+      "lng": 108.147304,
+      "heading": 110.8,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "J9YRFcUJ-BcvdNhahrHlnw",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.957802,
+      "lng": 108.148089,
+      "heading": 111.8,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "lLHwDu-BKoE2CMtHtbkzWQ",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.957498,
+      "lng": 108.148864,
+      "heading": 112.2,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "8yckbN0-q43sFXOWCqCqSw",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.957191,
+      "lng": 108.149629,
+      "heading": 112.1,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "GI-dGdNMOpGrwIklGS9bSA",
+      "imageDate": "2026-07",
+      "milestone": "Đầu đường",
+      "milestoneIndex": 0
+    },
+    {
+      "lat": 10.956885,
+      "lng": 108.150398,
+      "heading": 105.7,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "dGL5sjqzTbnksSf1pe016w",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956659,
+      "lng": 108.151216,
+      "heading": 95.2,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "F1dlSypRAbnhGD6qSG5dYQ",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956585,
+      "lng": 108.152049,
+      "heading": 95.5,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "CCbkzJCGK_KsmgEsTCO1KA",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956506,
+      "lng": 108.152887,
+      "heading": 95.5,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "IPW1lxpZ2ranlg3RG4lpuQ",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956425,
+      "lng": 108.153747,
+      "heading": 95.2,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "UxwXh5QB1W04sqbogz3CsA",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.95635,
+      "lng": 108.154594,
+      "heading": 82.9,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "1aeK15DQS4TvGN8SZ9UnRA",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956458,
+      "lng": 108.155481,
+      "heading": 82.7,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "r1329zmpm1p103seAa55LA",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956562,
+      "lng": 108.156311,
+      "heading": 113.6,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "BUuAIE9inugrkGzCvDzHcQ",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956218,
+      "lng": 108.157114,
+      "heading": 101.9,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "SYgERQ9XOLJpoYN5XuPIrw",
+      "imageDate": "2026-07",
+      "milestone": "Giữa đường",
+      "milestoneIndex": 1
+    },
+    {
+      "lat": 10.956034,
+      "lng": 108.158006,
+      "heading": 73.7,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "tssJMzCM_m82f1Y7hblS_Q",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.956266,
+      "lng": 108.158815,
+      "heading": 75.8,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "mLgJJx66dOrQxbqQzsmUtA",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.956482,
+      "lng": 108.159686,
+      "heading": 65.1,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "HjdfUbxKv3Vup4lsx_e3xw",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.956861,
+      "lng": 108.160516,
+      "heading": 38.1,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "Bc-_3jx5KzjmBFdKp-mo6w",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.957514,
+      "lng": 108.161038,
+      "heading": 15.3,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "Z4-UutKl19Oc2ZCEwBBupA",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.958346,
+      "lng": 108.16127,
+      "heading": 6.7,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "p9nOkd4uC4gCpJM0XVW8Qw",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.95921,
+      "lng": 108.161374,
+      "heading": 20.3,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "DmAoSViH2UOLAYjtuOJMAA",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.959976,
+      "lng": 108.161663,
+      "heading": 3.9,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "3-fVYC3riEtQKrXk_IZd5g",
+      "imageDate": "2026-07",
+      "milestone": "Gần nhà",
+      "milestoneIndex": 2
+    },
+    {
+      "lat": 10.96085,
+      "lng": 108.161724,
+      "heading": 26.6,
+      "pitch": 5,
+      "fov": 75,
+      "pano": "YJc8HR4cSb0OlccDa_ERKQ",
+      "imageDate": "2026-07",
+      "milestone": "Nhà",
+      "milestoneIndex": 3
+    },
+    {
+      "lat": 10.9611142,
+      "lng": 108.1618585,
+      "heading": 0,
+      "pitch": 5,
+      "fov": 75,
+      "milestone": "Nhà",
+      "milestoneIndex": 3
+    }
+  ]
+}

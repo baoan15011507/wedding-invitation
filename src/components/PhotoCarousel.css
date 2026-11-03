@@ -1,0 +1,86 @@
+.photo-carousel {
+  width: 100%;
+  margin: 8px 0 28px;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.photo-carousel-stage {
+  position: relative;
+  height: 250px;
+  perspective: 900px;
+}
+
+.photo-carousel-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(40, 50, 35, 0.22);
+  transition:
+    transform 0.55s cubic-bezier(0.22, 0.9, 0.28, 1),
+    opacity 0.45s ease,
+    z-index 0s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.photo-carousel-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  pointer-events: none;
+}
+
+/* Ảnh giữa: cao hơn, lớn hơn */
+.photo-carousel-card.is-center {
+  width: 138px;
+  height: 190px;
+  z-index: 3;
+  opacity: 1;
+  transform: translate(-50%, -54%) scale(1);
+  cursor: default;
+}
+
+/* 2 bên: thấp hơn, nhỏ hơn, tách ra xa hơn */
+.photo-carousel-card.is-left {
+  width: 100px;
+  height: 140px;
+  z-index: 2;
+  opacity: 0.88;
+  transform: translate(calc(-50% - 128px), -40%) scale(0.94);
+}
+
+.photo-carousel-card.is-right {
+  width: 100px;
+  height: 140px;
+  z-index: 2;
+  opacity: 0.88;
+  transform: translate(calc(-50% + 128px), -40%) scale(0.94);
+}
+
+.photo-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.photo-carousel-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(74, 92, 66, 0.28);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.photo-carousel-dots span.is-on {
+  background: var(--sage-deep, #6e8460);
+  transform: scale(1.2);
+}

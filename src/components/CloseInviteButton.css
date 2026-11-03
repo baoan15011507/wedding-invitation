@@ -1,0 +1,41 @@
+.close-invite-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px auto 36px;
+  padding: 0;
+}
+
+.close-invite-btn {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.close-invite-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.close-invite-btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.close-invite-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.close-invite-svg {
+  width: 36px;
+  height: 30px;
+  display: block;
+  filter: drop-shadow(0 3px 6px rgba(120, 30, 30, 0.28));
+}

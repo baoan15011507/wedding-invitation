@@ -1,43 +1,59 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import nendoBg from '../assets/nendo.jpg'
 import './WelcomeScreen.css'
 
-const OPEN_MS = 1600
+export const DOOR_MS = 1600
 
 /**
- * Màn mở đầu: 2 cánh cửa từ nendo.jpg.
- * Bấm 囍 → onOpenStart() (phát nhạc trong cùng user gesture) + mở cửa.
+ * Cửa thiệp nendo.jpg.
+ * phase: 'closed' | 'opening' | 'open' | 'closing'
  */
-export default function WelcomeScreen({ onOpenStart, onFinished }) {
-  const [opening, setOpening] = useState(false)
-  const [gone, setGone] = useState(false)
-  const finishedRef = useRef(false)
+export default function WelcomeScreen({
+  phase,
+  onOpenStart,
+  onOpened,
+  onClosed,
+}) {
+  const openedRef = useRef(false)
+  const closedRef = useRef(false)
 
-  const finish = () => {
-    if (finishedRef.current) return
-    finishedRef.current = true
-    setGone(true)
-    onFinished?.()
-  }
+  useEffect(() => {
+    if (phase === 'opening') {
+      openedRef.current = false
+      const id = window.setTimeout(() => {
+        if (openedRef.current) return
+        openedRef.current = true
+        onOpened?.()
+      }, DOOR_MS)
+      return () => window.clearTimeout(id)
+    }
+    if (phase === 'closing') {
+      closedRef.current = false
+      const id = window.setTimeout(() => {
+        if (closedRef.current) return
+        closedRef.current = true
+        onClosed?.()
+      }, DOOR_MS)
+      return () => window.clearTimeout(id)
+    }
+    return undefined
+  }, [phase, onOpened, onClosed])
 
   const handleOpen = () => {
-    if (opening) return
-    setOpening(true)
-
-    // Gọi ngay trong handler click — không để trong setTimeout — để Chrome không chặn audio
+    if (phase !== 'closed') return
     onOpenStart?.()
-
-    window.setTimeout(finish, OPEN_MS)
   }
 
-  if (gone) return null
+  const busy = phase === 'opening' || phase === 'closing'
+  const showHy = phase === 'closed'
 
   return (
     <div
-      className={`welcome${opening ? ' is-opening' : ''}`}
+      className={`welcome is-${phase}`}
       role="dialog"
-      aria-modal="true"
-      aria-label="Mở thiệp cưới"
+      aria-modal={phase !== 'open'}
+      aria-hidden={phase === 'open'}
+      aria-label="Thiệp cưới"
     >
       <div className="welcome-door welcome-door--left">
         <div
@@ -45,16 +61,18 @@ export default function WelcomeScreen({ onOpenStart, onFinished }) {
           style={{ backgroundImage: `url(${nendoBg})` }}
         />
 
-        <button
-          type="button"
-          className="welcome-hy"
-          onClick={handleOpen}
-          disabled={opening}
-          aria-label="Bấm Hỷ để mở thiệp và phát nhạc"
-          style={{ backgroundImage: `url(${nendoBg})` }}
-        >
-          <span className="welcome-hy-char">囍</span>
-        </button>
+        {showHy && (
+          <button
+            type="button"
+            className="welcome-hy"
+            onClick={handleOpen}
+            disabled={busy}
+            aria-label="Bấm Hỷ để mở thiệp và phát nhạc"
+            style={{ backgroundImage: `url(${nendoBg})` }}
+          >
+            <span className="welcome-hy-char">囍</span>
+          </button>
+        )}
       </div>
 
       <div className="welcome-door welcome-door--right" aria-hidden="true">
