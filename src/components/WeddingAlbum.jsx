@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import './WeddingAlbum.css'
 
 const AUTO_MS = 4200
@@ -93,8 +94,13 @@ export default function WeddingAlbum({ photos }) {
     const onKey = (e) => {
       if (e.key === 'Escape') closeLightbox()
     }
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = prevOverflow
+      window.removeEventListener('keydown', onKey)
+    }
   }, [lightbox])
 
   useEffect(() => {
@@ -193,31 +199,34 @@ export default function WeddingAlbum({ photos }) {
         </div>
       </div>
 
-      {lightbox && current && (
-        <div
-          className="wed-album-lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Xem ảnh đầy đủ"
-          onClick={closeLightbox}
-        >
-          <button
-            type="button"
-            className="wed-album-lightbox-close"
+      {lightbox &&
+        current &&
+        createPortal(
+          <div
+            className="wed-album-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Xem ảnh đầy đủ"
             onClick={closeLightbox}
-            aria-label="Đóng"
           >
-            ×
-          </button>
-          <img
-            className="wed-album-lightbox-img"
-            src={current.src}
-            alt=""
-            draggable={false}
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
+            <button
+              type="button"
+              className="wed-album-lightbox-close"
+              onClick={closeLightbox}
+              aria-label="Đóng"
+            >
+              ×
+            </button>
+            <img
+              className="wed-album-lightbox-img"
+              src={current.src}
+              alt=""
+              draggable={false}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>,
+          document.body,
+        )}
     </section>
   )
 }

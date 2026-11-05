@@ -241,7 +241,8 @@ def main():
     for i, f in enumerate(frames):
         nxt = frames[min(i + 1, len(frames) - 1)]
         ratio = i / max(1, len(frames) - 1)
-        if ratio >= 0.95:
+        # Chỉ frame cuối mới là Tiệc — tránh nút Tiệc nhảy nhầm khung giữa tuyến
+        if i == len(frames) - 1:
             ms, msi = "Tiệc", 3
         elif ratio >= 0.66:
             ms, msi = "Đầu đường rẽ", 2
@@ -264,9 +265,9 @@ def main():
         "pano": "mXzLXt6k-pBC_A47au0oBg",
         "mapsUrl": "https://maps.app.goo.gl/ArMR3hF6piCm5Pd48?g_st=ac",
     }
-    # Gắn frame gần nhất với điểm đường rẽ
+    # Gắn frame gần nhất với điểm đường rẽ (không đè frame cuối)
     turn_idx = min(
-        range(len(frames)),
+        range(max(0, len(frames) - 1)),
         key=lambda i: hav(frames[i], TURN_IN),
     )
     frames[turn_idx] = {
@@ -277,6 +278,42 @@ def main():
         "pano": TURN_IN["pano"],
         "milestone": "Đầu đường rẽ",
         "milestoneIndex": 2,
+    }
+
+    # Điểm Tiệc (nút Tiệc) — tour tự động phải kết thúc đúng điểm này
+    TIEC = {
+        "lat": 10.921947,
+        "lng": 108.058339,
+        "heading": 198.7,
+        "pitch": 5,
+        "fov": 75,
+        "pano": "5m9sM8XfXn_Kd6_gAv5GSQ",
+        "mapsUrl": DESTINATION.get("mapsUrl"),
+    }
+    # Cắt tuyến tại điểm gần Tiệc nhất, rồi frame cuối = đúng view nút Tiệc
+    tiec_near = min(range(len(frames)), key=lambda i: hav(frames[i], TIEC))
+    frames = frames[:tiec_near]
+    frames.append(
+        {
+            "lat": TIEC["lat"],
+            "lng": TIEC["lng"],
+            "heading": TIEC["heading"],
+            "pitch": TIEC["pitch"],
+            "fov": TIEC["fov"],
+            "pano": TIEC["pano"],
+            "imageDate": prefer,
+            "milestone": "Tiệc",
+            "milestoneIndex": 3,
+        }
+    )
+
+    # Maps pin giữ tọa độ quán; SV cuối = TIEC
+    dest_out = {
+        **DESTINATION,
+        "pano": TIEC["pano"],
+        "heading": TIEC["heading"],
+        "pitch": TIEC["pitch"],
+        "fov": TIEC["fov"],
     }
 
     milestones = [
@@ -304,23 +341,23 @@ def main():
         },
         {
             "label": "Tiệc",
-            "lat": frames[-1]["lat"],
-            "lng": frames[-1]["lng"],
-            "heading": frames[-1]["heading"],
-            "pano": frames[-1]["pano"],
+            "lat": TIEC["lat"],
+            "lng": TIEC["lng"],
+            "heading": TIEC["heading"],
+            "pano": TIEC["pano"],
         },
     ]
 
     dated = sum(1 for f in frames if f.get("imageDate") == prefer)
     out = {
         "source": "osrm+streetlevel",
-        "note": f"Tuyến cô dâu — tất cả pano ưu tiên {prefer}",
+        "note": f"Tuyến cô dâu — pano ưu tiên {prefer}; cuối tour = nút Tiệc ({TIEC['pano'][:12]})",
         "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "preferImageDate": prefer,
         "framesWithPreferDate": dated,
         "dateSurvey": dict(counts),
         "origin": {**ORIGIN, "pano": frames[0]["pano"], "imageDate": prefer},
-        "destination": DESTINATION,
+        "destination": dest_out,
         "distanceMeters": distance,
         "stepMs": 1200,
         "milestones": milestones,

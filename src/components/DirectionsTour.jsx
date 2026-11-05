@@ -305,7 +305,20 @@ export default function DirectionsTour() {
     : 0
 
   const jumpToMilestone = (label) => {
-    const idx = frames.findIndex((f) => f.milestone === label)
+    // Ưu tiên đúng pano của mốc (điểm cuối = Tiệc), tránh dính khung cùng nhãn ở giữa tuyến
+    const meta = milestones.find((m) => m.label === label)
+    let idx = -1
+    if (meta?.pano) {
+      idx = frames.findIndex((f) => f.pano === meta.pano)
+    }
+    if (idx < 0) {
+      for (let i = frames.length - 1; i >= 0; i -= 1) {
+        if (frames[i].milestone === label) {
+          idx = i
+          break
+        }
+      }
+    }
     if (idx >= 0) {
       setPlaying(false)
       showFrame(idx)

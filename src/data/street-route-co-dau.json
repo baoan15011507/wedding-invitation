@@ -1,6 +1,6 @@
 {
   "source": "osrm+streetlevel",
-  "note": "Tuyến cô dâu — pano 2026-07; mốc Đầu đường rẽ = Maps ArMR3hF6piCm5Pd48",
+  "note": "Tuyến cô dâu — cuối tour tự động = mốc Tiệc (5m9sM8XfXn_Kd6)",
   "generatedAt": "2026-11-05T05:53:07Z",
   "preferImageDate": "2026-07",
   "framesWithPreferDate": 39,
@@ -23,7 +23,11 @@
     "lat": 10.921752,
     "lng": 108.058067,
     "mapsUrl": "https://maps.app.goo.gl/PjF6JbqaFnbvG2iY7?g_st=ac",
-    "label": "Cà Phê Sân Vườn Hát Với Nhau"
+    "label": "Cà Phê Sân Vườn Hát Với Nhau",
+    "pano": "5m9sM8XfXn_Kd6_gAv5GSQ",
+    "heading": 198.7,
+    "pitch": 5,
+    "fov": 75
   },
   "distanceMeters": 2126,
   "stepMs": 1200,
@@ -52,10 +56,10 @@
     },
     {
       "label": "Tiệc",
-      "lat": 10.921686,
-      "lng": 108.058249,
-      "heading": 0.0,
-      "pano": "OgC5cVIIKH8-caeJ4Xu79Q"
+      "lat": 10.921947,
+      "lng": 108.058339,
+      "heading": 198.7,
+      "pano": "5m9sM8XfXn_Kd6_gAv5GSQ"
     }
   ],
   "frames": [
@@ -473,17 +477,6 @@
       "pitch": 5,
       "fov": 75,
       "pano": "5m9sM8XfXn_Kd6_gAv5GSQ",
-      "imageDate": "2026-07",
-      "milestone": "Tiệc",
-      "milestoneIndex": 3
-    },
-    {
-      "lat": 10.921686,
-      "lng": 108.058249,
-      "heading": 0.0,
-      "pitch": 5,
-      "fov": 75,
-      "pano": "OgC5cVIIKH8-caeJ4Xu79Q",
       "imageDate": "2026-07",
       "milestone": "Tiệc",
       "milestoneIndex": 3
