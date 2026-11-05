@@ -136,6 +136,15 @@
   transform: translateY(0.08em);
 }
 
+.inv-names-amp--text {
+  margin: 0 0.28em;
+  font-family: var(--font-script);
+  font-size: 0.85em;
+  font-style: italic;
+  text-transform: none;
+  transform: translateY(0.02em);
+}
+
 .inv-when {
   margin: 0;
   gap: 0;

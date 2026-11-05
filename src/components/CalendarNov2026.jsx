@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { wedding } from '../data/wedding'
+import { useWedding } from '../WeddingContext'
 import './CalendarNov2026.css'
 
 const FLIP_MS = 700
@@ -23,6 +23,7 @@ function HeartIcon({ className, outline = false }) {
 }
 
 export default function CalendarNov2026() {
+  const { wedding } = useWedding()
   const { calendar } = wedding
   const blanks = Array.from({ length: calendar.startWeekday }, (_, i) => i)
   const days = Array.from({ length: calendar.daysInMonth }, (_, i) => i + 1)

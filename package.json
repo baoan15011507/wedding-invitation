@@ -6,14 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:pages": "vite build && node -e \"const fs=require('fs');fs.rmSync('docs',{recursive:true,force:true});fs.cpSync('dist','docs',{recursive:true});fs.writeFileSync('docs/.nojekyll','')\"",
+    "build:pages": "vite build && node scripts/publish-docs.mjs",
     "route:build": "node scripts/build-street-route.mjs",
+    "route:build:co-dau": "node scripts/build-street-route-co-dau.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",

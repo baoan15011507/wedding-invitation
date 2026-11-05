@@ -3,15 +3,22 @@ import InvitationScroll from './components/InvitationScroll'
 import MusicToggle from './components/MusicToggle'
 import WelcomeScreen from './components/WelcomeScreen'
 import musicUrl from './assets/nhac/nhaccuoi.mp3'
+import { useWedding } from './WeddingContext'
 import './App.css'
 
 function App() {
+  const { wedding, variantId } = useWedding()
   /** closed | opening | open | closing */
   const [doorPhase, setDoorPhase] = useState('closed')
   const [musicOn, setMusicOn] = useState(false)
   /** Đổi key khi đóng → remount thiệp từ đầu */
   const [inviteKey, setInviteKey] = useState(0)
   const audioRef = useRef(null)
+
+  useEffect(() => {
+    const label = wedding.title || variantId
+    document.title = `Bảo Ân & Uyên Trang — ${label}`
+  }, [wedding.title, variantId])
 
   useEffect(() => {
     return () => {

@@ -1,4 +1,7 @@
-export const wedding = {
+/**
+ * Nội dung chung 2 thiệp. Khác biệt từng bản → src/data/variants.js
+ */
+export const weddingShared = {
   groom: {
     shortName: 'Bảo Ân',
     fullName: 'Trần Bảo Ân',
@@ -23,6 +26,13 @@ export const wedding = {
     mother: 'LƯƠNG THỊ NHÀN',
     address: 'Thôn Phú Mỹ, X. Tuyên Quang, T. Lâm Đồng',
   },
+  /** Thứ tự tên trên thiệp: groom-first | bride-first */
+  coupleOrder: 'groom-first',
+  /** '&' hoặc 'và' giữa hai tên ngắn */
+  nameJoiner: '&',
+  hero: {
+    weekdayLine: 'Chủ nhật — 11h00',
+  },
   party: {
     venueType: 'TƯ GIA',
     address: 'NHÀ BÁC BẢY — X566+FPC, HÀM THẮNG, LÂM ĐỒNG',
@@ -32,6 +42,10 @@ export const wedding = {
     month: 11,
     year: 2026,
     lunar: 'NHẰM NGÀY 21 THÁNG 10 NĂM BÍNH NGỌ',
+    timeLine: '11h00 - chủ nhật',
+    dateLine: '29-11-2026',
+    lunarLine: '( nhằm ngày 21 tháng 10 năm Bính Ngọ )',
+    venueLine: 'Tại Tư Gia',
   },
   ceremony: {
     venueType: 'TƯ GIA',
@@ -41,13 +55,19 @@ export const wedding = {
     month: 11,
     year: 2026,
     lunar: 'Nhằm ngày 21 tháng 10 năm Bính Ngọ',
+    timeDisplay: '10h30',
+    weekdayDisplay: 'chủ nhật',
+    dayDisplay: '29',
+    monthDisplay: 'tháng 11',
+    yearDisplay: 'năm 2026',
+    lunarLine: '( nhằm ngày 21 tháng 10 năm Bính Ngọ )',
+    venueLine: 'Tại Tư Gia',
   },
   calendar: {
     monthLabel: 'Tháng 11 năm 2026',
     year: 2026,
     month: 11,
     highlightDay: 29,
-    // Tuần bắt đầu Thứ 2; 1/11/2026 là Chủ nhật → 6 ô trống
     startWeekday: 6,
     daysInMonth: 30,
     weekdays: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
@@ -63,12 +83,14 @@ export const wedding = {
     nextPage: 'Xem mặt chính thức',
     prevPage: 'Quay lại thiệp mời',
   },
-
-  /**
-   * Chỉ đường — điểm chi tiết nằm trong src/data/street-route.json
-   * (tạo bằng: npm run route:build). Không cần Maps JavaScript API.
-   */
   directions: {
+    title: 'Chỉ đường đến tư gia',
     destinationLabel: 'Nhà Bác Bảy, X566+FPC',
+    viewPlaceLabel: 'Xem vị trí tư gia',
   },
+  /** 'groom-first' | 'bride-first' — thứ tự cột nhà trai / nhà gái */
+  familyOrder: 'groom-first',
 }
+
+/** @deprecated Dùng getWedding(variant) qua WeddingProvider */
+export const wedding = weddingShared

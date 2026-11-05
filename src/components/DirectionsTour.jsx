@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { wedding } from '../data/wedding'
-import route from '../data/street-route.json'
+import routeGroom from '../data/street-route.json'
+import routeBride from '../data/street-route-co-dau.json'
+import { useWedding } from '../WeddingContext'
 import './DirectionsTour.css'
 
 const EMBED_KEY = import.meta.env.VITE_GOOGLE_MAPS_EMBED_KEY || ''
-/** Thời gian tối thiểu giữ mỗi điểm trước khi chuyển (ms) */
-const MIN_DWELL_MS = route.stepMs ?? 1200
+const ROUTES = {
+  groom: routeGroom,
+  bride: routeBride,
+}
 
 const REVEAL_VARIANTS = ['left', 'right', 'up', 'down', 'fade', 'scale']
 
@@ -62,9 +65,12 @@ function buildOsmEmbed(lat, lng) {
 }
 
 export default function DirectionsTour() {
-  const { directions, party } = wedding
+  const { wedding } = useWedding()
+  const { directions, party, streetRoute } = wedding
+  const route = ROUTES[streetRoute] || routeGroom
   const frames = route.frames || []
   const milestones = route.milestones || []
+  const MIN_DWELL_MS = route.stepMs ?? 1200
 
   const [step, setStep] = useState(0)
   const [playing, setPlaying] = useState(false)
@@ -199,16 +205,19 @@ export default function DirectionsTour() {
     [hasKey, frames],
   )
 
-  const commitSwap = useCallback((slot, nextStep) => {
-    pendingStep.current = null
-    setVisible(slot)
-    setStep(nextStep)
-    shownAt.current = Date.now()
-    clearTimer()
-    timerRef.current = window.setTimeout(() => {
-      preloadNextRef.current?.(nextStep)
-    }, MIN_DWELL_MS)
-  }, [])
+  const commitSwap = useCallback(
+    (slot, nextStep) => {
+      pendingStep.current = null
+      setVisible(slot)
+      setStep(nextStep)
+      shownAt.current = Date.now()
+      clearTimer()
+      timerRef.current = window.setTimeout(() => {
+        preloadNextRef.current?.(nextStep)
+      }, MIN_DWELL_MS)
+    },
+    [MIN_DWELL_MS],
+  )
 
   const preloadNext = useCallback(
     (fromStep) => {
@@ -233,7 +242,7 @@ export default function DirectionsTour() {
         commitSwap(hidden, next)
       }, Math.max(MIN_DWELL_MS, 3500))
     },
-    [hasKey, frames, commitSwap],
+    [hasKey, frames, commitSwap, MIN_DWELL_MS],
   )
 
   const preloadNextRef = useRef(preloadNext)
@@ -267,11 +276,15 @@ export default function DirectionsTour() {
   }
 
   useEffect(() => {
-    if (!hasKey || frames.length === 0) return
+    setStep(0)
+    setPlaying(false)
+    setVisible(0)
+    setSlotSrc(['', ''])
+    if (!hasKey || frames.length === 0) return undefined
     showFrame(0)
     return clearTimer
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- chỉ init khi có key
-  }, [hasKey])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- đổi tuyến theo variant
+  }, [hasKey, streetRoute])
 
   useEffect(() => {
     if (!playing || !hasKey) {
@@ -314,10 +327,10 @@ export default function DirectionsTour() {
     <section
       ref={rootRef}
       className={`dir-tour${shown ? ' is-shown' : ''}`}
-      aria-label="Chỉ đường đến tư gia"
+      aria-label={directions.title || 'Chỉ đường'}
     >
       <h2 className={`dir-tour-title ${fxClass('title')}`} style={fxStyle('title')}>
-        Chỉ đường đến tư gia
+        {directions.title || 'Chỉ đường đến tư gia'}
       </h2>
       <p className={`dir-tour-addr ${fxClass('addr')}`} style={fxStyle('addr')}>
         {party.address}
@@ -333,7 +346,7 @@ export default function DirectionsTour() {
             style={fxStyle('map')}
           >
             <iframe
-              title="Bản đồ tư gia (OpenStreetMap)"
+              title={directions.viewPlaceLabel || 'Bản đồ địa điểm'}
               src={buildOsmEmbed(route.destination.lat, route.destination.lng)}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -428,7 +441,7 @@ export default function DirectionsTour() {
             style={fxStyle('map')}
           >
             <iframe
-              title="Vị trí tư gia"
+              title={directions.viewPlaceLabel || 'Vị trí địa điểm'}
               src={placeSrc}
               allowFullScreen
               loading="lazy"
@@ -455,7 +468,7 @@ export default function DirectionsTour() {
           target="_blank"
           rel="noreferrer"
         >
-          Xem vị trí tư gia
+          {directions.viewPlaceLabel || 'Xem vị trí tư gia'}
         </a>
       </div>
     </section>

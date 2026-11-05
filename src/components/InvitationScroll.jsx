@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { albumPhotos } from '../data/album'
 import { anhSo1, anhSo2, carouselPhotos } from '../data/photos'
-import { wedding } from '../data/wedding'
+import { useWedding } from '../WeddingContext'
 import DirectionsTour from './DirectionsTour'
 import CalendarNov2026 from './CalendarNov2026'
 import WeddingAlbum from './WeddingAlbum'
@@ -105,6 +105,9 @@ function CeremonySection({ enabled }) {
     }
   }, [enabled])
 
+  const { wedding } = useWedding()
+  const { ceremony } = wedding
+
   return (
     <div
       ref={rootRef}
@@ -115,19 +118,23 @@ function CeremonySection({ enabled }) {
       <p className="inv-ceremony-when">Vào lúc</p>
 
       <div className="inv-ceremony-grid" aria-label="Thời gian lễ thành hôn">
-        <div className="inv-ceremony-cell inv-ceremony-time">10h30</div>
-        <div className="inv-ceremony-rule" aria-hidden="true" />
-        <div className="inv-ceremony-cell inv-ceremony-mid">
-          <span>chủ nhật</span>
-          <span className="inv-ceremony-day">29</span>
-          <span>tháng 11</span>
+        <div className="inv-ceremony-cell inv-ceremony-time">
+          {ceremony.timeDisplay}
         </div>
         <div className="inv-ceremony-rule" aria-hidden="true" />
-        <div className="inv-ceremony-cell inv-ceremony-year">năm 2026</div>
+        <div className="inv-ceremony-cell inv-ceremony-mid">
+          <span>{ceremony.weekdayDisplay}</span>
+          <span className="inv-ceremony-day">{ceremony.dayDisplay}</span>
+          <span>{ceremony.monthDisplay}</span>
+        </div>
+        <div className="inv-ceremony-rule" aria-hidden="true" />
+        <div className="inv-ceremony-cell inv-ceremony-year">
+          {ceremony.yearDisplay}
+        </div>
       </div>
 
-      <p className="inv-ceremony-lunar">( nhằm ngày 21 tháng 10 năm Bính Ngọ )</p>
-      <p className="inv-ceremony-venue">Tại Tư Gia</p>
+      <p className="inv-ceremony-lunar">{ceremony.lunarLine}</p>
+      <p className="inv-ceremony-venue">{ceremony.venueLine}</p>
     </div>
   )
 }
@@ -186,6 +193,9 @@ function PartyFrameSection({ enabled }) {
     }
   }, [enabled])
 
+  const { wedding } = useWedding()
+  const { party } = wedding
+
   return (
     <div
       ref={rootRef}
@@ -194,10 +204,10 @@ function PartyFrameSection({ enabled }) {
     >
       <div className="inv-party-inner">
         <p className="inv-party-title">TIỆC MỪNG LỄ THÀNH HÔN</p>
-        <p className="inv-party-time">11h00 - chủ nhật</p>
-        <p className="inv-party-date">29-11-2026</p>
-        <p className="inv-party-lunar">( nhằm ngày 21 tháng 10 năm Bính Ngọ )</p>
-        <p className="inv-party-venue">Tại Tư Gia</p>
+        <p className="inv-party-time">{party.timeLine}</p>
+        <p className="inv-party-date">{party.dateLine}</p>
+        <p className="inv-party-lunar">{party.lunarLine}</p>
+        <p className="inv-party-venue">{party.venueLine}</p>
       </div>
     </div>
   )
@@ -209,7 +219,30 @@ const AUTO_SCROLL_PX_PER_SEC = 50
 const AUTO_SCROLL_DELAY_MS = 1100
 
 export default function InvitationScroll({ active, onCloseInvite }) {
-  const { groom, bride, groomFamily, brideFamily, party } = wedding
+  const { wedding } = useWedding()
+  const {
+    groom,
+    bride,
+    groomFamily,
+    brideFamily,
+    party,
+    hero,
+    familyOrder,
+    coupleOrder,
+    nameJoiner,
+  } = wedding
+  const leftFamily = familyOrder === 'bride-first' ? brideFamily : groomFamily
+  const rightFamily = familyOrder === 'bride-first' ? groomFamily : brideFamily
+  const firstShort =
+    coupleOrder === 'bride-first' ? bride.shortName : groom.shortName
+  const secondShort =
+    coupleOrder === 'bride-first' ? groom.shortName : bride.shortName
+  const firstFull =
+    coupleOrder === 'bride-first' ? bride.fullName : groom.fullName
+  const secondFull =
+    coupleOrder === 'bride-first' ? groom.fullName : bride.fullName
+  const joinerClass =
+    nameJoiner === '&' ? 'inv-names-amp' : 'inv-names-amp inv-names-amp--text'
   const scrollerRef = useRef(null)
   const autoRef = useRef({ running: false, raf: 0, last: 0, carry: 0 })
 
@@ -305,9 +338,9 @@ export default function InvitationScroll({ active, onCloseInvite }) {
         </Reveal>
 
         <Reveal enabled={active} className="inv-names" delay={140} variant="right">
-          <span>{groom.shortName}</span>
-          <span className="inv-names-amp">&amp;</span>
-          <span>{bride.shortName}</span>
+          <span>{firstShort}</span>
+          <span className={joinerClass}>{nameJoiner}</span>
+          <span>{secondShort}</span>
         </Reveal>
 
         <Reveal enabled={active} delay={220} variant="fade">
@@ -315,7 +348,7 @@ export default function InvitationScroll({ active, onCloseInvite }) {
         </Reveal>
 
         <Reveal enabled={active} className="inv-when inv-when--weekday" delay={280} variant="left">
-          <p className="inv-weekday">Chủ nhật — 11h00</p>
+          <p className="inv-weekday">{hero.weekdayLine}</p>
         </Reveal>
 
         <Reveal enabled={active} className="inv-when inv-when--date" delay={340} variant="right">
@@ -347,14 +380,14 @@ export default function InvitationScroll({ active, onCloseInvite }) {
 
       <section className="inv-block inv-announce" aria-label="Báo tin lễ thành hôn">
         <div className="inv-families">
-          {/* Nhà Trai: từ trái → phải; Nhà Gái: từ phải → trái (không đảo theo hướng cuộn) */}
+          {/* Thứ tự theo variant: chu-re nhà trai trái; co-dau nhà gái trái */}
           <Reveal
             enabled={active}
             className="inv-family-reveal inv-reveal-fixed"
             delay={80}
             variant="left"
           >
-            <FamilyCol family={groomFamily} />
+            <FamilyCol family={leftFamily} />
           </Reveal>
           <div className="inv-families-rule" aria-hidden="true" />
           <Reveal
@@ -363,7 +396,7 @@ export default function InvitationScroll({ active, onCloseInvite }) {
             delay={80}
             variant="right"
           >
-            <FamilyCol family={brideFamily} />
+            <FamilyCol family={rightFamily} />
           </Reveal>
         </div>
 
@@ -378,13 +411,13 @@ export default function InvitationScroll({ active, onCloseInvite }) {
 
         <div className="inv-announce-couple">
           <Reveal enabled={active} delay={220} variant="left">
-            <p className="inv-full-name">{groom.fullName}</p>
+            <p className="inv-full-name">{firstFull}</p>
           </Reveal>
           <Reveal enabled={active} delay={260} variant="fade">
             <span className="inv-amp">&amp;</span>
           </Reveal>
           <Reveal enabled={active} delay={300} variant="right">
-            <p className="inv-full-name">{bride.fullName}</p>
+            <p className="inv-full-name">{secondFull}</p>
           </Reveal>
         </div>
 
